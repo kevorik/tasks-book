@@ -1,4 +1,4 @@
-export const Facebook = (props: any): JSX.Element => {
+export const Twitter = (props: any): JSX.Element => {
   const { path } = props;
 
   return (
@@ -8,4 +8,4 @@ export const Facebook = (props: any): JSX.Element => {
   );
 };
 
-export default Facebook;
+export default Twitter;

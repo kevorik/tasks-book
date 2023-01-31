@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignInPage from "./signIn/signInPage";
+import UserAccount from "./userAccount/userAccountPage";
 export function RoutesList() {
   // const { children } = props;
 
@@ -8,6 +9,7 @@ export function RoutesList() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<SignInPage />} />
+        <Route path="user" element={<UserAccount />} />
       </Routes>
     </BrowserRouter>
   );

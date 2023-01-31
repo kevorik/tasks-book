@@ -1,9 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Facebook from "../uploadImage/Facebook";
-
+import Twitter from "../uploadImage/Twitter";
+import pic from "../image/facebook 1.svg";
+import pict from "../image/twitter 1.svg";
+import pictu from "../image/Логотип.svg";
+import pic1 from "../image/menu.svg";
 export function SignInPage() {
+  const navigate = useNavigate();
+
   return (
     <div style={styles.signPage}>
+      <div style={styles.header as React.CSSProperties}>
+        <div style={styles.logo as React.CSSProperties}>
+          <img src={pictu} />
+        </div>
+        <div style={styles.menu}>
+          <img src={pic1} />
+        </div>
+      </div>
       <div style={styles.signIn as React.CSSProperties}>
         <div style={styles.signacc}>Вход в аккаунт</div>
         <div style={styles.content as React.CSSProperties}>
@@ -15,7 +29,12 @@ export function SignInPage() {
             style={styles.email as React.CSSProperties}
             placeholder="Пароль"
           ></input>
-          <button style={styles.button as React.CSSProperties}>Войти</button>
+          <button
+            onClick={() => navigate("user")}
+            style={styles.button as React.CSSProperties}
+          >
+            Войти
+          </button>
           <div style={styles.register}>
             Еще нет аккаунта?<Link to="register">Регистрация</Link>
           </div>
@@ -26,13 +45,11 @@ export function SignInPage() {
           </div>
           <div style={styles.media as React.CSSProperties}>
             <div style={styles.facebook}>
-              <div style={styles.vector2 as React.CSSProperties}>
-                <div style={styles.vector1 as React.CSSProperties}></div>
-              </div>
-
-              {/* <Facebook path={"/src/image/test.png"} /> */}
+              <img src={pic} />
             </div>
-            <div>twitter</div>
+            <div style={styles.facebook}>
+              <img src={pict} />
+            </div>
           </div>
         </div>
       </div>
@@ -121,6 +138,8 @@ const styles = {
     lineHeight: "22px",
     letterSpacing: "0.01em",
     color: "#FAFAFA",
+    cursor: "pointer",
+    border: "none",
   },
   register: {
     display: "flex",
@@ -172,32 +191,31 @@ const styles = {
   facebook: {
     width: "32px",
     height: "32px",
+  },
+  header: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "20px",
+    gap: "431px",
+    position: "absolute",
+    height: "94px",
     left: "0px",
+    right: "0px",
     top: "0px",
-    borderRadius: "0px",
   },
-  vector1: {
-    // position: "absolute",
-
-    // left: "12px",
-    // top: "6px",
-    borderRadius: "0px",
-    left: "37.5%",
-    right: "15.62%",
-    top: "18.75%",
-    bottom: "0%",
-    background: "#FAFAFA",
-    height: "26px",
-    width: "15px",
+  logo: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: "0px",
+    gap: "10px",
+    width: "119px",
+    height: "54px",
   },
-  vector2: {
-    // position: "absolute",
-    left: "0%",
-    right: "0%",
-    top: "0%",
-    bottom: "0%",
-    background: "#1976D2",
-    height: "32px",
-    width: "32px",
+  menu: {
+    width: "44px",
+    height: "44px",
   },
 };
