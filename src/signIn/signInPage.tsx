@@ -30,7 +30,7 @@ export function SignInPage() {
             placeholder="Пароль"
           ></input>
           <button
-            onClick={() => navigate("user")}
+            onClick={() => navigate("main")}
             style={styles.button as React.CSSProperties}
           >
             Войти

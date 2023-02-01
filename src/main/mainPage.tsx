@@ -1,24 +1,15 @@
 import pic from "../image/Group 1.svg";
 import pic1 from "../image/moon.svg";
 import pic2 from "../image/header__avatar.svg";
-import pic3 from "../image/facebook 1.svg";
-import pic4 from "../image/twitter 1.svg";
 import pic5 from "../image/Логотип.svg";
 import pic6 from "../image/briefcase.svg";
 import pic7 from "../image/zap.svg";
 import pic8 from "../image/bar-chart-2.svg";
 import pic9 from "../image/zap.svg";
+import pic10 from "../image/Функции.svg";
+import pic11 from "../image/График.svg";
 
-import {
-  ConfigProvider,
-  theme,
-  Button,
-  Card,
-  MenuProps,
-  Dropdown,
-  Space,
-  Avatar,
-} from "antd";
+import { Card, MenuProps, Dropdown, Space } from "antd";
 import React, { useState } from "react";
 import {
   SettingOutlined,
@@ -31,13 +22,34 @@ import {
   HomeOutlined,
   UsergroupAddOutlined,
   PlusSquareOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { Checkbox } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
-export function UserAccount() {
+export function MainPage() {
+  const gridStyle: React.CSSProperties = {
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: "15px",
+    gap: "10px",
+    width: "526px",
+    height: "49px",
+    background: "#FFFFFF",
+    border: "1px solid rgba(40, 40, 70, 0.1)",
+    borderRadius: "10px",
+    cursor: "pointer",
+  };
   const onChange = (e: CheckboxChangeEvent) => {
     console.log(`checked = ${e.target.checked}`);
+  };
+  const handleCard = (gridStyle: any) => {
+    console.log("gridStyle", gridStyle);
+
+    if (gridStyle) {
+      return <EditOutlined />;
+    }
   };
   const [darkMode, setDarkMode] = useState(false);
   const items: MenuProps["items"] = [
@@ -91,10 +103,10 @@ export function UserAccount() {
       <div style={styles.useracc}>
         <div style={styles.main as React.CSSProperties}>
           <div style={styles.header as React.CSSProperties}>
-            <button style={styles.button as React.CSSProperties}>
-              <div style={styles.basic as React.CSSProperties}>
+            <button style={styles.buttonHeader as React.CSSProperties}>
+              <div style={styles.basicHeader as React.CSSProperties}>
                 <img src={pic} />
-                <div style={styles.text}>Основа с иконкой</div>
+                <div style={styles.textHeader}>Новая задача</div>
               </div>
             </button>
             <button style={styles.dark} onClick={() => setDarkMode(!darkMode)}>
@@ -112,56 +124,92 @@ export function UserAccount() {
           </div>
           <div style={styles.content as React.CSSProperties}>
             <div style={styles.leftColumn as React.CSSProperties}>
-              <div style={styles.leftColumnPhoto as React.CSSProperties}>
-                <div style={styles.photoUser as React.CSSProperties}>
-                  <img style={{ width: "150px", height: "150px" }} src={pic2} />
-                  <Link style={styles.changePhoto} to="photo">
-                    изменить фото
-                  </Link>
+              <div style={styles.weeklyProgress as React.CSSProperties}>
+                <div style={styles.topWeeklyProgress as React.CSSProperties}>
+                  <div style={styles.titleTopWeeklyProgress}>
+                    Успехи за неделю
+                  </div>
+                  <img src={pic10} />
+                </div>
+                <div style={styles.circles as React.CSSProperties}>
+                  <div style={styles.circle as React.CSSProperties}>
+                    <div style={styles.titleCircle}>Создано</div>
+                    <div style={styles.taskCircle as React.CSSProperties}>
+                      <div style={styles.numberTaskCircle}>113</div>
+                      <div style={styles.bottomTaskCircle}>задач</div>
+                    </div>
+                  </div>
+                  <div style={styles.circle as React.CSSProperties}>
+                    <div style={styles.titleCircle}>Завершено</div>
+                    <div style={styles.taskCircle as React.CSSProperties}>
+                      <div style={styles.numberTaskCircle}>97</div>
+                      <div style={styles.bottomTaskCircle}>задач</div>
+                    </div>
+                  </div>
+                  <div style={styles.circle as React.CSSProperties}>
+                    <div style={styles.titleCircle}>Удалено</div>
+                    <div style={styles.taskCircle as React.CSSProperties}>
+                      <div style={styles.numberTaskCircle}>14</div>
+                      <div style={styles.bottomTaskCircle}>задач</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div style={styles.leftrightColumn as React.CSSProperties}>
-                <div style={styles.nickName as React.CSSProperties}>
-                  <div style={styles.text2}>Ваш никнейм:</div>
-                  <input
-                    style={styles.username as React.CSSProperties}
-                    placeholder="Nickname"
-                  ></input>
+              <div style={styles.tasks as React.CSSProperties}>
+                <div style={styles.activeTasks as React.CSSProperties}>
+                  <div style={styles.titleTasks}>Активные задачи</div>
+                  <img src={pic10} />
                 </div>
-                <div style={styles.mail as React.CSSProperties}>
-                  <div style={styles.text3}> Ваша почта:</div>
-                  <input
-                    style={styles.email as React.CSSProperties}
-                    placeholder="Email"
-                  ></input>
-                  <Checkbox onChange={onChange}>
-                    Подписаться на рассылку
-                  </Checkbox>
-                </div>
-                <div style={styles.social as React.CSSProperties}>
-                  <div style={styles.text4}> Ваши социальные сети:</div>
-                  <div style={styles.media as React.CSSProperties}>
-                    <div style={styles.facebook}>
-                      <img src={pic3} />
-                    </div>
-                    <div style={styles.facebook}>
-                      <img src={pic4} />
-                    </div>
+                <div style={styles.taskTasks as React.CSSProperties}>
+                  <div style={styles.tableTasks as React.CSSProperties}>
+                    <Card>
+                      <Card.Grid onClick={handleCard} style={gridStyle}>
+                        <div style={styles.textTasks}>
+                          Приготовить вкусный ужин
+                        </div>
+                      </Card.Grid>
+                    </Card>
+                    <Card>
+                      <Card.Grid style={gridStyle}>
+                        <div style={styles.textTasks}>
+                          Устранить засор в раковине
+                        </div>
+                      </Card.Grid>
+                    </Card>
+                    <Card>
+                      <Card.Grid style={gridStyle}>
+                        <div style={styles.textTasks}>Стирка белого белья </div>
+                      </Card.Grid>
+                    </Card>
+                    <Card>
+                      <Card.Grid style={gridStyle}>
+                        <div style={styles.textTasks}>
+                          Разморозить холодильник
+                        </div>
+                      </Card.Grid>
+                    </Card>
                   </div>
                 </div>
-                <button style={styles.leftColumnButton as React.CSSProperties}>
-                  <div style={styles.basic1 as React.CSSProperties}>
-                    <div style={styles.text5}>Сохранить изменения</div>
+                <div style={styles.completedTasks as React.CSSProperties}>
+                  <div style={styles.titleCompletedTasks}>
+                    Завершенные задачи
                   </div>
-                </button>
+                  <Card>
+                    <Card.Grid style={gridStyle}>
+                      <div style={styles.textCompletedTasks}>Полить цветы</div>
+                    </Card.Grid>
+                  </Card>
+                  <Card>
+                    <Card.Grid style={gridStyle}>
+                      <div style={styles.textCompletedTasks}>
+                        Вызвать сантехника
+                      </div>
+                    </Card.Grid>
+                  </Card>
+                </div>
               </div>
             </div>
             <div style={styles.rightColumn as React.CSSProperties}>
-              <button style={styles.headerButton as React.CSSProperties}>
-                <div style={styles.basic2 as React.CSSProperties}>
-                  <div style={styles.text6}>Оформить премиум подписку</div>
-                </div>
-              </button>
               <div style={styles.time as React.CSSProperties}>
                 <div style={styles.title as React.CSSProperties}>
                   <div style={styles.text7}> Такс такс такс</div>
@@ -208,60 +256,68 @@ export function UserAccount() {
                   </div>
                 </div>
               </div>
+              <div style={styles.graphic as React.CSSProperties}>
+                <div style={styles.titleGraphic as React.CSSProperties}>
+                  <div style={styles.textGraphic}>График успеваемости</div>
+                </div>
+                <div style={styles.graphGraphic as React.CSSProperties}>
+                  <img src={pic11} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div style={styles.layout as React.CSSProperties}>
-          <div style={styles.designCenter as React.CSSProperties}>
-            <div style={styles.topLayout as React.CSSProperties}>
-              <img style={{ width: "119px", height: "54px" }} src={pic5} />
-            </div>
-            <div style={styles.categories as React.CSSProperties}>
-              <div style={styles.textCategories}>Категории</div>
-              <div style={styles.list as React.CSSProperties}>
-                <div style={styles.item1 as React.CSSProperties}>
-                  <HomeOutlined />
-                  <div style={styles.textItem}>Дом</div>
-                  <div style={styles.active}></div>
-                </div>
-                <div style={styles.item1 as React.CSSProperties}>
-                  <UsergroupAddOutlined />
-                  <div style={styles.textItem}>Семья</div>
-                </div>
-                <div style={styles.item1 as React.CSSProperties}>
-                  <img src={pic6} />
-                  <div style={styles.textItem}>Работа</div>
-                </div>
-                <div style={styles.item1 as React.CSSProperties}>
-                  <img src={pic7} />
-                  <div style={styles.textItem}>Спорт</div>
-                </div>
-                <div style={styles.item2 as React.CSSProperties}>
-                  <PlusSquareOutlined />
-                  <div style={styles.textItem1}>Добавить</div>
-                </div>
+      </div>
+      <div style={styles.layout as React.CSSProperties}>
+        <div style={styles.designCenter as React.CSSProperties}>
+          <div style={styles.topLayout as React.CSSProperties}>
+            <img style={{ width: "119px", height: "54px" }} src={pic5} />
+          </div>
+          <div style={styles.categories as React.CSSProperties}>
+            <div style={styles.textCategories}>Категории</div>
+            <div style={styles.list as React.CSSProperties}>
+              <div style={styles.item1 as React.CSSProperties}>
+                <HomeOutlined />
+                <div style={styles.textItem}>Дом</div>
+                <div style={styles.active}></div>
+              </div>
+              <div style={styles.item1 as React.CSSProperties}>
+                <UsergroupAddOutlined />
+                <div style={styles.textItem}>Семья</div>
+              </div>
+              <div style={styles.item1 as React.CSSProperties}>
+                <img src={pic6} />
+                <div style={styles.textItem}>Работа</div>
+              </div>
+              <div style={styles.item1 as React.CSSProperties}>
+                <img src={pic7} />
+                <div style={styles.textItem}>Спорт</div>
+              </div>
+              <div style={styles.item2 as React.CSSProperties}>
+                <PlusSquareOutlined />
+                <div style={styles.textItem1}>Добавить</div>
               </div>
             </div>
-            <div style={styles.data as React.CSSProperties}>
-              <div style={styles.textData}>Данные</div>
-              <div style={styles.contentData as React.CSSProperties}>
-                <div style={styles.dataItem as React.CSSProperties}>
-                  <img src={pic8} />
-                  <div style={styles.textDataItem}>Статистика</div>
-                </div>
-                <div style={styles.dataItem as React.CSSProperties}>
-                  <img src={pic9} />
-                  <div style={styles.textDataItem}>Сравнить</div>
-                </div>
+          </div>
+          <div style={styles.data as React.CSSProperties}>
+            <div style={styles.textData}>Данные</div>
+            <div style={styles.contentData as React.CSSProperties}>
+              <div style={styles.dataItem as React.CSSProperties}>
+                <img src={pic8} />
+                <div style={styles.textDataItem}>Статистика</div>
+              </div>
+              <div style={styles.dataItem as React.CSSProperties}>
+                <img src={pic9} />
+                <div style={styles.textDataItem}>Сравнить</div>
               </div>
             </div>
-            <div style={styles.exit as React.CSSProperties}>
-              <div style={styles.itemExit as React.CSSProperties}>
-                <ExportOutlined />
-                <Link style={styles.textExit} to={"/"}>
-                  Выйти
-                </Link>
-              </div>
+          </div>
+          <div style={styles.exit as React.CSSProperties}>
+            <div style={styles.itemExit as React.CSSProperties}>
+              <ExportOutlined />
+              <Link style={styles.textExit} to={"/"}>
+                Выйти
+              </Link>
             </div>
           </div>
         </div>
@@ -269,7 +325,7 @@ export function UserAccount() {
     </div>
   );
 }
-export default UserAccount;
+export default MainPage;
 const styles = {
   useracc: {
     height: "100vh",
@@ -333,6 +389,7 @@ const styles = {
     border: "none",
     backgroundColor: "#FFFFFF",
     opacity: "0.7",
+    cursor: "pointer",
   },
   user: {
     display: "flex",
@@ -363,14 +420,11 @@ const styles = {
   },
   leftColumn: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "flex-start",
-    padding: "20px",
-    gap: "50px",
-    width: "540px",
+    gap: "30px",
     height: "408px",
     background: "#FFFFFF",
-    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
     borderRadius: "10px",
   },
   leftColumnPhoto: {
@@ -535,7 +589,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    padding: "0px",
+    paddingLeft: "30px",
     gap: "30px",
     width: "473px",
     height: "556px",
@@ -689,7 +743,7 @@ const styles = {
     fontSize: "25px",
     lineHeight: "34px",
     letterSpacing: "0.02em",
-    color: "#282846",
+    // color: "#282846",
   },
   watching: {
     display: "flex",
@@ -991,6 +1045,270 @@ const styles = {
     fontSize: "16px",
     lineHeight: "22px",
     letterSpacing: "0.025em",
+    color: "#282846",
+  },
+  weeklyProgress: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "20px",
+    gap: "20px",
+    width: "566px",
+    height: "211px",
+    background: "#FFFFFF",
+    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
+    borderRadius: "10px",
+  },
+  topWeeklyProgress: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0px",
+    gap: "341px",
+    width: "526px",
+    height: "25px",
+  },
+  titleTopWeeklyProgress: {
+    width: "157px",
+    height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  circles: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "57px",
+    width: "526px",
+    height: "126px",
+  },
+  circle: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "0px",
+    gap: "10px",
+    width: "100px",
+    height: "126px",
+  },
+  titleCircle: {
+    width: "50px",
+    height: "16px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "600",
+    fontSize: "12px",
+    lineHeight: "16px",
+    letterSpacing: "0.02em",
+    color: "#282846",
+  },
+  taskCircle: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "0px",
+    width: "100px",
+    height: "100px",
+    background: "#FFFFFF",
+    border: "1px solid #29A19C",
+    borderRadius: "200px",
+  },
+  numberTaskCircle: {
+    // width: "67px",
+    height: "49px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "600",
+    fontSize: "36px",
+    lineHeight: "49px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  bottomTaskCircle: {
+    // width: "33px",
+    height: "16px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "400",
+    fontSize: "12px",
+    lineHeight: "16px",
+    letterSpacing: "0.02em",
+    color: "#282846",
+  },
+  buttonHeader: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: "0px",
+    width: "182px",
+    height: "42px",
+    background: "#29A19C",
+    borderRadius: "8px",
+    cursor: "pointer",
+    // border: "none",
+  },
+  basicHeader: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "182px",
+    height: "42px",
+  },
+  textHeader: {
+    width: "104px",
+    height: "22px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "600",
+    fontSize: "16px",
+    lineHeight: "22px",
+    letterSpacing: "0.01e",
+    color: "#FAFAFA",
+  },
+  graphic: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "20px",
+    gap: "20px",
+    width: "472px",
+    height: "256px",
+    background: "#FFFFFF",
+    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
+    borderRadius: "10px",
+  },
+  titleGraphic: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "189px",
+    height: "25px",
+  },
+  textGraphic: {
+    width: "189px",
+    height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  graphGraphic: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "432px",
+    height: "171px",
+  },
+  tasks: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "20px",
+    gap: "20px",
+    width: "566px",
+    height: "474px",
+    background: "#FFFFFF",
+    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
+    borderRadius: "10px",
+  },
+  activeTasks: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0px",
+    gap: "347px",
+    width: "526px",
+    height: "25px",
+  },
+  titleTasks: {
+    width: "151px",
+    height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  taskTasks: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    width: "526px",
+    height: "226px",
+  },
+  tableTasks: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "526px",
+    height: "49px",
+    // cursor: "pointer",
+  },
+  textTasks: {
+    width: "183px",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "400",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02em",
+    color: "#282846",
+  },
+  completedTasks: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "526px",
+    height: "143px",
+  },
+  titleCompletedTasks: {
+    width: "186px",
+    height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  textCompletedTasks: {
+    width: "135px",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "400",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02em",
+    textDecorationLine: "line-through",
     color: "#282846",
   },
 };

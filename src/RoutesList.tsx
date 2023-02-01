@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import MainPage from "./main/mainPage";
 import SignInPage from "./signIn/signInPage";
 import UserAccount from "./userAccount/userAccountPage";
 export function RoutesList() {
@@ -9,6 +10,7 @@ export function RoutesList() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<SignInPage />} />
+        <Route path="main" element={<MainPage />} />
         <Route path="user" element={<UserAccount />} />
       </Routes>
     </BrowserRouter>
