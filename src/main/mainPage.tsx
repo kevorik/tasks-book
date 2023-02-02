@@ -9,8 +9,18 @@ import pic9 from "../image/zap.svg";
 import pic10 from "../image/Функции.svg";
 import pic11 from "../image/График.svg";
 
-import { Card, MenuProps, Dropdown, Space } from "antd";
-import React, { useState } from "react";
+import {
+  Card,
+  MenuProps,
+  Dropdown,
+  Space,
+  Modal,
+  Select,
+  DatePickerProps,
+  DatePicker,
+  Button,
+} from "antd";
+import React, { useEffect, useState } from "react";
 import {
   SettingOutlined,
   UserOutlined,
@@ -24,9 +34,29 @@ import {
   PlusSquareOutlined,
   EditOutlined,
 } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useHref } from "react-router-dom";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
+import { ACTIVE_TASKS } from "../data/tasks";
 export function MainPage() {
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const activeTasls = ACTIVE_TASKS;
+
+  console.log(activeTasls);
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleOk = () => {
+    setOpen(false);
+  };
+  const handleCancel = () => {
+    console.log("Clicked cancel button");
+    setOpen(false);
+  };
+
   const gridStyle: React.CSSProperties = {
     boxSizing: "border-box",
     display: "flex",
@@ -41,8 +71,8 @@ export function MainPage() {
     borderRadius: "10px",
     cursor: "pointer",
   };
-  const onChange = (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+    console.log(date, dateString);
   };
   const handleCard = (gridStyle: any) => {
     console.log("gridStyle", gridStyle);
@@ -51,6 +81,7 @@ export function MainPage() {
       return <EditOutlined />;
     }
   };
+
   const [darkMode, setDarkMode] = useState(false);
   const items: MenuProps["items"] = [
     {
@@ -103,12 +134,86 @@ export function MainPage() {
       <div style={styles.useracc}>
         <div style={styles.main as React.CSSProperties}>
           <div style={styles.header as React.CSSProperties}>
-            <button style={styles.buttonHeader as React.CSSProperties}>
+            <button
+              onClick={showModal}
+              style={styles.buttonHeader as React.CSSProperties}
+            >
               <div style={styles.basicHeader as React.CSSProperties}>
                 <img src={pic} />
                 <div style={styles.textHeader}>Новая задача</div>
               </div>
             </button>
+            <Modal
+              footer={[
+                <div style={styles.buttonModal as React.CSSProperties}>
+                  <div style={styles.cancelButtonModal as React.CSSProperties}>
+                    <Button
+                      onClick={handleCancel}
+                      style={styles.cancelButton as React.CSSProperties}
+                    >
+                      <div style={styles.textCancelButton}>Отменить</div>
+                    </Button>
+                  </div>
+                  <Button style={styles.saveTemplate as React.CSSProperties}>
+                    <div style={styles.textSaveTemplate}>
+                      Сохранить как шаблон
+                    </div>
+                  </Button>
+                  <Button
+                    onClick={handleOk}
+                    style={styles.addButton as React.CSSProperties}
+                  >
+                    <div style={styles.textCancelButton}>Добавить</div>
+                  </Button>
+                </div>,
+              ]}
+              onCancel={handleCancel}
+              style={styles.modal as React.CSSProperties}
+              open={open}
+              onOk={handleOk}
+              confirmLoading={confirmLoading}
+            >
+              <div style={styles.titleModal as React.CSSProperties}>
+                <div style={styles.textModal}>Добавить новую задачу</div>
+              </div>
+              <div style={styles.contentModal as React.CSSProperties}>
+                <div style={styles.itemContent as React.CSSProperties}>
+                  <div style={styles.itemTextModal}>Что нужно сделать?</div>
+                  <input style={styles.taskModal as React.CSSProperties}>
+                    {/* <div style={styles.inputModal}></div> */}
+                  </input>
+                </div>
+                <div style={styles.item2Content as React.CSSProperties}>
+                  <div style={styles.categoriesModal as React.CSSProperties}>
+                    <div style={styles.titleCategoriesModal}>Категория</div>
+                    <Select
+                      defaultValue="Выбрать"
+                      style={styles.selectModal as React.CSSProperties}
+                      allowClear
+                      options={[{ value: "lucy", label: "Lucy" }]}
+                    />
+                  </div>
+                  <div style={styles.categoriesModal as React.CSSProperties}>
+                    <div style={styles.titleCategoriesModal}>Когда?</div>
+                    <DatePicker
+                      style={styles.selectModal as React.CSSProperties}
+                      onChange={onChange}
+                    />
+                  </div>
+                  <div style={styles.categoriesModal as React.CSSProperties}>
+                    <div style={styles.titleCategoriesModal}>
+                      Приоритет задачи
+                    </div>
+                    <Select
+                      defaultValue="Выбрать"
+                      style={styles.selectModal as React.CSSProperties}
+                      allowClear
+                      options={[{ value: "lucy", label: "Lucy" }]}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Modal>
             <button style={styles.dark} onClick={() => setDarkMode(!darkMode)}>
               <img src={pic1} />
             </button>
@@ -165,7 +270,9 @@ export function MainPage() {
                     <Card>
                       <Card.Grid onClick={handleCard} style={gridStyle}>
                         <div style={styles.textTasks}>
-                          Приготовить вкусный ужин
+                          {activeTasls.map((task) => (
+                            <div key={task.name}></div>
+                          ))}
                         </div>
                       </Card.Grid>
                     </Card>
@@ -212,6 +319,11 @@ export function MainPage() {
             <div style={styles.rightColumn as React.CSSProperties}>
               <div style={styles.time as React.CSSProperties}>
                 <div style={styles.title as React.CSSProperties}>
+                  <div style={styles.textTasks}>
+                    {activeTasls.map((task) => (
+                      <div key={task.name}></div>
+                    ))}
+                  </div>
                   <div style={styles.text7}> Такс такс такс</div>
                 </div>
                 <div style={styles.timeAndDate as React.CSSProperties}>
@@ -330,6 +442,8 @@ const styles = {
   useracc: {
     height: "100vh",
     display: "flex",
+    justifyContent: "center",
+    // alignItems: "center",
   },
   main: {
     display: "flex",
@@ -337,7 +451,7 @@ const styles = {
     alignItems: "flex-start",
     padding: "0px",
     gap: "60px",
-    position: "absolute",
+    // position: "absolute",
     width: "1069px",
     height: "660px",
     left: "301px",
@@ -378,7 +492,7 @@ const styles = {
     height: "22px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "16px",
     lineHeight: "22px",
     letterSpacing: "0.01e",
@@ -405,7 +519,7 @@ const styles = {
     height: "22px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "16px",
     lineHeight: "22px",
   },
@@ -451,7 +565,7 @@ const styles = {
     height: "16px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "300",
+    fontWeight: "300",
     fontSize: "12px",
     lineHeight: "16px",
     letterSpacing: "0.03em",
@@ -481,7 +595,7 @@ const styles = {
     height: "19px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "14px",
     lineHeight: "19px",
     letterSpacing: "0.03em",
@@ -509,7 +623,7 @@ const styles = {
     height: "19px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "14px",
     lineHeight: "19px",
     letterSpacing: "0.03em",
@@ -536,7 +650,7 @@ const styles = {
     height: "19px",
     fontFamily: "Nunito",
     fontstyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "14px",
     lineHeight: "19px",
     letterSpacing: "0.03em",
@@ -567,7 +681,7 @@ const styles = {
   },
   basic1: {
     display: "flex",
-    flexdirection: "row",
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     gap: "10px",
@@ -577,12 +691,12 @@ const styles = {
   text5: {
     width: "168px",
     height: "22px",
-    fontfamily: "Nunito",
-    fontstyle: "normal",
-    fontheight: "600",
-    fontsize: "16px",
-    lineheight: "22px",
-    letterspacing: "0.01em",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "16px",
+    lineHeight: "22px",
+    letterSpacing: "0.01em",
     color: "#FAFAFA",
   },
   rightColumn: {
@@ -618,7 +732,7 @@ const styles = {
     height: "22px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "16px",
     lineHeight: "22px",
     letterSpacing: "0.01em",
@@ -650,7 +764,7 @@ const styles = {
     height: "25px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "18px",
     lineHeight: "25px",
     letterSpacing: "0.02em",
@@ -680,7 +794,7 @@ const styles = {
     height: "19px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "14px",
     lineHeight: "19px",
     letterSpacing: "0.02em",
@@ -700,7 +814,7 @@ const styles = {
     height: "34px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "25px",
     lineHeight: "34px",
     letterSpacing: "0.02em",
@@ -719,7 +833,7 @@ const styles = {
     height: "19px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "14px",
     lineHeight: "19px",
     letterSpacing: "0.02em",
@@ -739,7 +853,7 @@ const styles = {
     height: "34px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "25px",
     lineHeight: "34px",
     letterSpacing: "0.02em",
@@ -772,7 +886,7 @@ const styles = {
     height: "25px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "18px",
     lineHeight: "25px",
     letterSpacing: "0.02em",
@@ -793,7 +907,7 @@ const styles = {
     height: "19px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "14px",
     lineHeight: "19px",
     letterSpacing: "0.02em",
@@ -804,7 +918,7 @@ const styles = {
     height: "19px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "14px",
     lineHeight: "19px",
     letterSpacing: "0.02em",
@@ -836,7 +950,7 @@ const styles = {
     height: "25px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "18px",
     lineHeight: "25px",
     letterSpacing: "0.02em",
@@ -856,7 +970,7 @@ const styles = {
     height: "63px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "14px",
     lineHeight: "150%",
     letterSpacing: "0.02em",
@@ -906,7 +1020,7 @@ const styles = {
     height: "33px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "24px",
     lineHeight: "33px",
     letterSpacing: "0.03em",
@@ -936,7 +1050,7 @@ const styles = {
     height: "22px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "16px",
     lineHeight: "22px",
     letterSpacing: "0.025em",
@@ -964,7 +1078,7 @@ const styles = {
     height: "22px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "16px",
     lineHeight: "22px",
     letterSpacing: "0.025em",
@@ -984,7 +1098,7 @@ const styles = {
     height: "33px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "24px",
     lineHeight: "33px",
     letterSpacing: "0.03em",
@@ -1011,7 +1125,7 @@ const styles = {
   textDataItem: {
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "16px",
     lineHeight: "22px",
     color: "#282846",
@@ -1041,7 +1155,7 @@ const styles = {
     height: "22px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "16px",
     lineHeight: "22px",
     letterSpacing: "0.025em",
@@ -1074,7 +1188,7 @@ const styles = {
     height: "25px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "18px",
     lineHeight: "25px",
     letterSpacing: "0.02em",
@@ -1105,7 +1219,7 @@ const styles = {
     height: "16px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "12px",
     lineHeight: "16px",
     letterSpacing: "0.02em",
@@ -1128,7 +1242,7 @@ const styles = {
     height: "49px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "36px",
     lineHeight: "49px",
     letterSpacing: "0.02em",
@@ -1139,7 +1253,7 @@ const styles = {
     height: "16px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "12px",
     lineHeight: "16px",
     letterSpacing: "0.02em",
@@ -1170,7 +1284,7 @@ const styles = {
     height: "22px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "16px",
     lineHeight: "22px",
     letterSpacing: "0.01e",
@@ -1202,7 +1316,7 @@ const styles = {
     height: "25px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "18px",
     lineHeight: "25px",
     letterSpacing: "0.02em",
@@ -1244,7 +1358,7 @@ const styles = {
     height: "25px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "18px",
     lineHeight: "25px",
     letterSpacing: "0.02em",
@@ -1273,7 +1387,7 @@ const styles = {
     height: "19px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "14px",
     lineHeight: "19px",
     letterSpacing: "0.02em",
@@ -1293,7 +1407,7 @@ const styles = {
     height: "25px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "600",
+    fontWeight: "600",
     fontSize: "18px",
     lineHeight: "25px",
     letterSpacing: "0.02em",
@@ -1304,11 +1418,214 @@ const styles = {
     height: "19px",
     fontFamily: "Nunito",
     fontStyle: "normal",
-    fontHeight: "400",
+    fontWeight: "400",
     fontSize: "14px",
     lineHeight: "19px",
     letterSpacing: "0.02em",
     textDecorationLine: "line-through",
     color: "#282846",
+  },
+  modal: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "20px",
+    gap: "30px",
+    position: "relative",
+    width: "700px",
+    height: "350px",
+    // background: "#FFFFFF",
+    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
+    borderRadius: "10px",
+  },
+  titleModal: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: "30px",
+    gap: "20px",
+    width: "660px",
+    height: "27px",
+  },
+  textModal: {
+    width: "236px",
+    height: "27px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: "20px",
+    lineHeight: "27px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  contentModal: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "30px",
+    width: "660px",
+    height: "158px",
+  },
+  itemContent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "660px",
+    height: "64px",
+  },
+  itemTextModal: {
+    width: "137px",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02,em",
+    color: "#282846",
+  },
+  taskModal: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    // padding: "8px 15px",
+    gap: "10px",
+    width: "660px",
+    height: "35px",
+    border: "1px solid rgba(40, 40, 70, 0.1)",
+    borderRadius: "8px",
+  },
+  inputModal: {
+    width: "123px",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02em",
+    color: "#000000",
+  },
+  item2Content: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "30px",
+    width: "660px",
+    height: "64px",
+  },
+  categoriesModal: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "200px",
+    height: "64px",
+  },
+  titleCategoriesModal: {
+    width: "127px",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "700",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02em",
+    color: "#282846",
+  },
+  selectModal: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    gap: "10px",
+    width: "200px",
+    height: "35px",
+    borderRadius: "8px",
+  },
+  buttonModal: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    padding: "0px",
+    gap: "10px",
+    width: "660px",
+    height: "65px",
+  },
+  cancelButtonModal: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    width: "292px",
+    height: "42px",
+  },
+  cancelButton: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "10px 25px",
+    gap: "10px",
+    width: "124px",
+    height: "42px",
+    background: "#F05454",
+    borderRadius: "8px",
+    cursor: "pointer",
+  },
+  textCancelButton: {
+    width: "74px",
+    height: "22px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "16px",
+    lineHeight: "22px",
+    letterSpacing: "0.01em",
+    color: "#FAFAFA",
+  },
+  saveTemplate: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "10px 25px",
+    gap: "10px",
+    width: "224px",
+    height: "42px",
+    border: "1px solid #29A19C",
+    borderRadius: "8px",
+    cursor: "pointer",
+  },
+  textSaveTemplate: {
+    width: "174px",
+    height: "22px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "22x",
+    lineHeight: "22px",
+    letterSpacing: "0.01em",
+    color: "#29A19C",
+  },
+  addButton: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "10px 25px",
+    gap: "10px",
+    width: "124px",
+    height: "42px",
+    background: "#29A19C",
+    borderRadius: "8px",
+    cursor: "pointer",
   },
 };
