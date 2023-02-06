@@ -19,6 +19,7 @@ import {
   DatePickerProps,
   DatePicker,
   Button,
+  Layout,
 } from "antd";
 import React, { useEffect, useState } from "react";
 import {
@@ -131,7 +132,7 @@ export function MainPage() {
   ];
   return (
     <div className={darkMode ? "dark-mode" : "light-mode"}>
-      <div style={styles.useracc}>
+        <Layout style={{height: '100vh'}}>
         <div style={styles.main as React.CSSProperties}>
           <div style={styles.header as React.CSSProperties}>
             <button
@@ -379,7 +380,7 @@ export function MainPage() {
             </div>
           </div>
         </div>
-      </div>
+        </Layout>
       <div style={styles.layout as React.CSSProperties}>
         <div style={styles.designCenter as React.CSSProperties}>
           <div style={styles.topLayout as React.CSSProperties}>
@@ -1331,7 +1332,7 @@ const styles = {
     width: "432px",
     height: "171px",
   },
-  tasks: {
+ tasks : {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
