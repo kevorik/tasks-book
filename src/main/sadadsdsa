@@ -1,0 +1,114 @@
+<Header
+            style={{
+              padding: 0,
+              // style={{ backgroundColor: token.colorPrimary }}
+              background: "none",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <button
+              onClick={showModal}
+              style={styles.buttonHeader as React.CSSProperties}
+            >
+              <div style={styles.basicHeader as React.CSSProperties}>
+                <img src={pic} />
+                <div style={styles.textHeader}>Новая задача</div>
+              </div>
+            </button>
+            <Modal
+              footer={[
+                <div style={styles.buttonModal as React.CSSProperties}>
+                  <div style={styles.cancelButtonModal as React.CSSProperties}>
+                    <Button
+                      onClick={handleCancel}
+                      style={styles.cancelButton as React.CSSProperties}
+                    >
+                      <div style={styles.textCancelButton}>Отменить</div>
+                    </Button>
+                  </div>
+                  <Button style={styles.saveTemplate as React.CSSProperties}>
+                    <div style={styles.textSaveTemplate}>
+                      Сохранить как шаблон
+                    </div>
+                  </Button>
+                  <Button
+                    onClick={handleOk}
+                    style={styles.addButton as React.CSSProperties}
+                  >
+                    <div style={styles.textCancelButton}>Добавить</div>
+                  </Button>
+                </div>,
+              ]}
+              onCancel={handleCancel}
+              style={styles.modal as React.CSSProperties}
+              open={open}
+              onOk={handleOk}
+              confirmLoading={confirmLoading}
+            >
+              <div style={styles.titleModal as React.CSSProperties}>
+                <div style={styles.textModal}>Добавить новую задачу</div>
+              </div>
+              <div style={styles.contentModal as React.CSSProperties}>
+                <div style={styles.itemContent as React.CSSProperties}>
+                  <div style={styles.itemTextModal}>Что нужно сделать?</div>
+                  <input style={styles.taskModal as React.CSSProperties}>
+                    {/* <div style={styles.inputModal}></div> */}
+                  </input>
+                </div>
+                <div style={styles.item2Content as React.CSSProperties}>
+                  <div style={styles.categoriesModal as React.CSSProperties}>
+                    <div style={styles.titleCategoriesModal}>Категория</div>
+                    <Select
+                      defaultValue="Выбрать"
+                      style={styles.selectModal as React.CSSProperties}
+                      allowClear
+                      options={[{ value: "lucy", label: "Lucy" }]}
+                    />
+                  </div>
+                  <div style={styles.categoriesModal as React.CSSProperties}>
+                    <div style={styles.titleCategoriesModal}>Когда?</div>
+                    <DatePicker
+                      style={styles.selectModal as React.CSSProperties}
+                      onChange={onChange}
+                    />
+                  </div>
+                  <div style={styles.categoriesModal as React.CSSProperties}>
+                    <div style={styles.titleCategoriesModal}>
+                      Приоритет задачи
+                    </div>
+                    <Select
+                      defaultValue="Выбрать"
+                      style={styles.selectModal as React.CSSProperties}
+                      allowClear
+                      options={[{ value: "lucy", label: "Lucy" }]}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Modal>
+            <Button
+              style={{ color: "white" }}
+              // style={styles.dark}
+              // style={{ backgroundColor: token.colorPrimary }}
+              // onClick={() => setDarkMode(!darkMode)}
+              onClick={handleLightThemeClick}
+            >
+              {/* {isDarkMode ? "Light" : "Dark"} */} light
+              {/* <img src={pic1} /> */}
+            </Button>
+            <Button style={{ color: "white" }} onClick={handleDarkThemeClick}>
+              Dark
+            </Button>
+            <div style={styles.user as React.CSSProperties}>
+              <div style={styles.text1}>Хорошего дня, username</div>
+              <img src={pic2} />
+              <Dropdown menu={{ items }}>
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space>{<DownOutlined />}</Space>
+                </a>
+              </Dropdown>
+            </div>
+          </Header>

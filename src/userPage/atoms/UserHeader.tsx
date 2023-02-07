@@ -20,7 +20,7 @@ export const UserHeader = (props: User): JSX.Element => {
   const items: MenuProps["items"] = [
     {
       label: (
-        <a target="_blank" rel="noopener noreferrer">
+        <a onClick={() => navigate("/user")} target="/" rel="/">
           <UserOutlined /> Личный кабинет
         </a>
       ),

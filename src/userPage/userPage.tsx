@@ -1,8 +1,8 @@
 import { ConfigProvider, Layout } from "antd";
 import { ReactNode } from "react";
-import { SiderUser } from "./organism/Sider";
-import { HeaderUser } from "./organism/Header";
-import { ContentUser } from "./organism/Content";
+import { SiderUser } from "./organisms/Sider";
+import { HeaderUser } from "./organisms/Header";
+import { ContentUser } from "./organisms/Content";
 
 type UserAccountPage = {
   children?: ReactNode;
