@@ -1,50 +1,39 @@
-import React, { useState } from "react";
-import pic from "../image/Group 1.svg";
-import pic1 from "../image/moon.svg";
-import pic2 from "../image/header__avatar.svg";
-import pic5 from "../image/Логотип.svg";
-import pic6 from "../image/briefcase.svg";
-import pic7 from "../image/zap.svg";
-import pic10 from "../image/Функции.svg";
-import pic11 from "../image/График.svg";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  HomeOutlined,
-  UsergroupAddOutlined,
-  PlusSquareOutlined,
-  ExportOutlined,
-  DownOutlined,
-  UserOutlined,
-  SettingOutlined,
-  StarOutlined,
-  EditOutlined,
-  FieldTimeOutlined,
-  CalendarOutlined,
-} from "@ant-design/icons";
 import {
   Button,
+  Checkbox,
   ConfigProvider,
-  Card,
-  DatePicker,
-  DatePickerProps,
   Dropdown,
   Layout,
   Menu,
   MenuProps,
-  Modal,
-  Select,
   Space,
-  theme,
-  Form,
 } from "antd";
+import pic from "../image/Group 1.svg";
+import pic1 from "../image/moon.svg";
+import pic5 from "../image/Логотип.svg";
+import pic6 from "../image/briefcase.svg";
+import pic7 from "../image/zap.svg";
+import pic2 from "../image/header__avatar.svg";
+import pic3 from "../image/facebook 1.svg";
+import pic4 from "../image/twitter 1.svg";
+import { useState } from "react";
+import {
+  SettingOutlined,
+  UserOutlined,
+  StarOutlined,
+  ExportOutlined,
+  DownOutlined,
+  FieldTimeOutlined,
+  CalendarOutlined,
+  HomeOutlined,
+  UsergroupAddOutlined,
+  PlusSquareOutlined,
+} from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
+import { Content, Header } from "antd/es/layout/layout";
+import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useTheme } from "../hooks/use-theme";
-
-const { Header, Sider, Content } = Layout;
-
-const MainPage: React.FC = () => {
+const UserAccount: React.FC = () => {
   const { theme, setTheme } = useTheme();
 
   const handleLightThemeClick = () => {
@@ -53,77 +42,16 @@ const MainPage: React.FC = () => {
   const handleDarkThemeClick = () => {
     setTheme("dark");
   };
-
-  // const { defaultAlgorithm, darkAlgorithm } = theme; //////
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const handleClick = () => {
-    setIsDarkMode((previousValue) => !previousValue);
-  };
-
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const [collapsed, setCollapsed] = useState(false);
-  // const {
-  //   token: { colorBgContainer },
-  // } = theme.useToken();/////////////////////
-  const showModal = () => {
-    setOpen(true);
-  };
-  const handleOk = () => {
-    setOpen(false);
-  };
-  const handleCancel = () => {
-    console.log("Clicked cancel button");
-    setOpen(false);
-  };
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log(date, dateString);
-  };
-  // const [darkMode, setDarkMode] = useState(false);
-  const handleCard = (gridStyle: any) => {
-    console.log("gridStyle", gridStyle);
-
-    if (gridStyle) {
-      return <EditOutlined />;
-    }
+  const onChange = (e: CheckboxChangeEvent) => {
+    console.log(`checked = ${e.target.checked}`);
   };
   const navigate = useNavigate();
-  const gridStyle: React.CSSProperties = {
-    boxSizing: "border-box",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "15px",
-    gap: "10px",
-    width: "100%",
-    height: "49px",
-    background: "var(--background)",
-    border: "1px solid rgba(40, 40, 70, 0.1)",
-    borderRadius: "10px",
-    cursor: "pointer",
-  };
-  const leftColumn: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "30px",
-    // height: "408px",
-    // background: "#FFFFFF",
-    borderRadius: "10px",
-    width: "50%",
-    background: "var(--background-color)",
-  };
+  const [collapsed, setCollapsed] = useState(false);
   const items: MenuProps["items"] = [
     {
       label: (
-        <a
-          onClick={() => navigate("/user")}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a target="_blank" rel="noopener noreferrer">
           <UserOutlined /> Личный кабинет
-          <Link to={"/user"}></Link>
         </a>
       ),
       key: "0",
@@ -158,30 +86,15 @@ const MainPage: React.FC = () => {
     },
     {
       label: (
-        <a
-          onClick={() => navigate("/")}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a onClick={() => navigate("/")} target="/" rel="/">
           <ExportOutlined /> Выйти
         </a>
       ),
+
       key: "4",
     },
   ];
   return (
-    // <ConfigProvider
-    //   theme={{
-    //     token: {
-    //       // colorPrimary: "#F9F9F9",
-    //       colorBgLayout: "#222831",
-    //       colorBgContainer: "#2C3440",
-    //       colorText: "white",
-    //     },
-    //     // algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
-    //   }}
-    // >
-    // <div className={darkMode ? "dark-mode" : "light-mode"}>
     <ConfigProvider
       theme={{
         token: { colorBgContainer: "#2C3440" },
@@ -317,86 +230,12 @@ const MainPage: React.FC = () => {
               alignItems: "center",
             }}
           >
-            <button
-              onClick={showModal}
-              style={styles.buttonHeader as React.CSSProperties}
-            >
-              <div style={styles.basicHeader as React.CSSProperties}>
+            <button style={styles.button as React.CSSProperties}>
+              <div style={styles.basic as React.CSSProperties}>
                 <img src={pic} />
-                <div style={styles.textHeader}>Новая задача</div>
+                <div style={styles.text}>Основа с иконкой</div>
               </div>
             </button>
-            <Modal
-              footer={[
-                <div style={styles.buttonModal as React.CSSProperties}>
-                  <div style={styles.cancelButtonModal as React.CSSProperties}>
-                    <Button
-                      onClick={handleCancel}
-                      style={styles.cancelButton as React.CSSProperties}
-                    >
-                      <div style={styles.textCancelButton}>Отменить</div>
-                    </Button>
-                  </div>
-                  <Button style={styles.saveTemplate as React.CSSProperties}>
-                    <div style={styles.textSaveTemplate}>
-                      Сохранить как шаблон
-                    </div>
-                  </Button>
-                  <Button
-                    onClick={handleOk}
-                    style={styles.addButton as React.CSSProperties}
-                  >
-                    <div style={styles.textCancelButton}>Добавить</div>
-                  </Button>
-                </div>,
-              ]}
-              onCancel={handleCancel}
-              style={styles.modal as React.CSSProperties}
-              open={open}
-              onOk={handleOk}
-              confirmLoading={confirmLoading}
-            >
-              <div style={styles.titleModal as React.CSSProperties}>
-                <div style={styles.textModal}>Добавить новую задачу</div>
-              </div>
-              <div style={styles.contentModal as React.CSSProperties}>
-                <div style={styles.itemContent as React.CSSProperties}>
-                  <div style={styles.itemTextModal}>Что нужно сделать?</div>
-                  <input style={styles.taskModal as React.CSSProperties}>
-                    {/* <div style={styles.inputModal}></div> */}
-                  </input>
-                </div>
-                <div style={styles.item2Content as React.CSSProperties}>
-                  <div style={styles.categoriesModal as React.CSSProperties}>
-                    <div style={styles.titleCategoriesModal}>Категория</div>
-                    <Select
-                      defaultValue="Выбрать"
-                      style={styles.selectModal as React.CSSProperties}
-                      allowClear
-                      options={[{ value: "lucy", label: "Lucy" }]}
-                    />
-                  </div>
-                  <div style={styles.categoriesModal as React.CSSProperties}>
-                    <div style={styles.titleCategoriesModal}>Когда?</div>
-                    <DatePicker
-                      style={styles.selectModal as React.CSSProperties}
-                      onChange={onChange}
-                    />
-                  </div>
-                  <div style={styles.categoriesModal as React.CSSProperties}>
-                    <div style={styles.titleCategoriesModal}>
-                      Приоритет задачи
-                    </div>
-                    <Select
-                      defaultValue="Выбрать"
-                      style={styles.selectModal as React.CSSProperties}
-                      allowClear
-                      options={[{ value: "lucy", label: "Lucy" }]}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Modal>
             <Button
               style={{ color: "white" }}
               // style={styles.dark}
@@ -435,124 +274,79 @@ const MainPage: React.FC = () => {
               flexWrap: "wrap",
             }}
           >
-            <div style={leftColumn}>
-              <Form style={styles.weeklyProgress as React.CSSProperties}>
-                <div style={styles.topWeeklyProgress as React.CSSProperties}>
-                  <div style={styles.titleTopWeeklyProgress}>
-                    Успехи за неделю
-                  </div>
-                  <img
-                    src={pic10}
-                    style={{ background: "var(--button-text-color)" }}
-                  />
+            <div style={styles.leftColumn as React.CSSProperties}>
+              <div style={styles.leftColumnPhoto as React.CSSProperties}>
+                <div style={styles.photoUser as React.CSSProperties}>
+                  <img style={{ width: "150px", height: "150px" }} src={pic2} />
+                  <Link style={styles.changePhoto} to="photo">
+                    изменить фото
+                  </Link>
                 </div>
-                <div style={styles.circles as React.CSSProperties}>
-                  <div style={styles.circle as React.CSSProperties}>
-                    <div style={styles.titleCircle}>Создано</div>
-                    <div style={styles.taskCircle as React.CSSProperties}>
-                      <div style={styles.numberTaskCircle}>113</div>
-                      <div style={styles.bottomTaskCircle}>задач</div>
+              </div>
+              <div style={styles.leftrightColumn as React.CSSProperties}>
+                <div style={styles.nickName as React.CSSProperties}>
+                  <div style={styles.text2}>Ваш никнейм:</div>
+                  <input
+                    style={styles.username as React.CSSProperties}
+                    placeholder="Nickname"
+                  ></input>
+                </div>
+                <div style={styles.mail as React.CSSProperties}>
+                  <div style={styles.text3}> Ваша почта:</div>
+                  <input
+                    style={styles.email as React.CSSProperties}
+                    placeholder="Email"
+                  ></input>
+                  <Checkbox
+                    style={{
+                      color: "var(--button-text-color)",
+                      paddingTop: "10px",
+                    }}
+                    onChange={onChange}
+                  >
+                    Подписаться на рассылку
+                  </Checkbox>
+                </div>
+                <div style={styles.social as React.CSSProperties}>
+                  <div style={styles.text4}> Ваши социальные сети:</div>
+                  <div style={styles.media as React.CSSProperties}>
+                    <div style={styles.facebook}>
+                      <img src={pic3} />
+                    </div>
+                    <div style={styles.facebook}>
+                      <img src={pic4} />
                     </div>
                   </div>
-                  <div style={styles.circle as React.CSSProperties}>
-                    <div style={styles.titleCircle}>Завершено</div>
-                    <div style={styles.taskCircle as React.CSSProperties}>
-                      <div style={styles.numberTaskCircle}>97</div>
-                      <div style={styles.bottomTaskCircle}>задач</div>
-                    </div>
-                  </div>
-                  <div style={styles.circle as React.CSSProperties}>
-                    <div style={styles.titleCircle}>Удалено</div>
-                    <div style={styles.taskCircle as React.CSSProperties}>
-                      <div style={styles.numberTaskCircle}>14</div>
-                      <div style={styles.bottomTaskCircle}>задач</div>
-                    </div>
-                  </div>
                 </div>
-              </Form>
-              <div style={styles.tasks as React.CSSProperties}>
-                <div style={styles.activeTasks as React.CSSProperties}>
-                  <div style={styles.titleTasks}>Активные задачи</div>
-                  <img
-                    src={pic10}
-                    style={{ background: "var(--button-text-color)" }}
-                  />
-                </div>
-                <div style={styles.taskTasks as React.CSSProperties}>
-                  <div style={styles.tableTasks as React.CSSProperties}>
-                    <Card style={{ width: "100%" }}>
-                      <Card.Grid style={gridStyle}>
-                        <div style={styles.textTasks}>
-                          Приготовить вкусный ужин
-                        </div>
-                      </Card.Grid>
-                    </Card>
-                    <Card style={{ width: "100%" }}>
-                      <Card.Grid style={gridStyle}>
-                        <div style={styles.textTasks}>
-                          Устранить засор в раковине
-                        </div>
-                      </Card.Grid>
-                    </Card>
-                    <Card style={{ width: "100%" }}>
-                      <Card.Grid style={gridStyle}>
-                        <div style={styles.textTasks}>Стирка белого белья </div>
-                      </Card.Grid>
-                    </Card>
-                    <Card style={{ width: "100%" }}>
-                      <Card.Grid style={gridStyle}>
-                        <div style={styles.textTasks}>
-                          Разморозить холодильник
-                        </div>
-                      </Card.Grid>
-                    </Card>
+                <button style={styles.leftColumnButton as React.CSSProperties}>
+                  <div style={styles.basic1 as React.CSSProperties}>
+                    <div style={styles.text5}>Сохранить изменения</div>
                   </div>
-                </div>
-                <div style={styles.completedTasks as React.CSSProperties}>
-                  <div style={styles.titleCompletedTasks}>
-                    Завершенные задачи
-                  </div>
-                  <Card style={{ width: "100%" }}>
-                    <Card.Grid style={gridStyle}>
-                      <div style={styles.textCompletedTasks}>Полить цветы</div>
-                    </Card.Grid>
-                  </Card>
-                  <Card style={{ width: "100%" }}>
-                    <Card.Grid style={gridStyle}>
-                      <div style={styles.textCompletedTasks}>
-                        Вызвать сантехника
-                      </div>
-                    </Card.Grid>
-                  </Card>
-                </div>
+                </button>
               </div>
             </div>
             <div style={styles.rightColumn as React.CSSProperties}>
+              <button style={styles.headerButton as React.CSSProperties}>
+                <div style={styles.basic2 as React.CSSProperties}>
+                  <div style={styles.text6}>Оформить премиум подписку</div>
+                </div>
+              </button>
               <div style={styles.time as React.CSSProperties}>
                 <div style={styles.title as React.CSSProperties}>
-                  {/* <div style={styles.textTasks}>
-                    {activeTasls.map((task) => (
-                      <div key={task.name}></div>
-                    ))}
-                  </div> */}
                   <div style={styles.text7}> Такс такс такс</div>
                 </div>
                 <div style={styles.timeAndDate as React.CSSProperties}>
                   <div style={styles.time1 as React.CSSProperties}>
                     <div style={styles.text8}>На часах у нас</div>
                     <div style={styles.tableTime as React.CSSProperties}>
-                      <FieldTimeOutlined
-                        style={{ color: "var(--button-text-color)" }}
-                      />
+                      <FieldTimeOutlined />
                       <div style={styles.textTime}>12:30:43</div>
                     </div>
                   </div>
                   <div style={styles.date as React.CSSProperties}>
                     <div style={styles.text9}>А сегодня у нас</div>
                     <div style={styles.tableDate as React.CSSProperties}>
-                      <CalendarOutlined
-                        style={{ color: "var(--button-text-color)" }}
-                      />
+                      <CalendarOutlined />
                       <div style={styles.textDate}>5 апреля 2021</div>
                     </div>
                   </div>
@@ -583,32 +377,14 @@ const MainPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div style={styles.graphic as React.CSSProperties}>
-                <div style={styles.titleGraphic as React.CSSProperties}>
-                  <div style={styles.textGraphic}>График успеваемости</div>
-                </div>
-                <div style={styles.graphGraphic as React.CSSProperties}>
-                  <img
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      color: "var(--button-text-color)",
-                    }}
-                    src={pic11}
-                  />
-                </div>
-              </div>
             </div>
           </Content>
-          {/* </div> */}
         </Layout>
       </Layout>
     </ConfigProvider>
-    // </div>
   );
 };
-
-export default MainPage;
+export default UserAccount;
 
 const styles = {
   topLayout: {
@@ -672,7 +448,7 @@ const styles = {
     paddingLeft: "30px",
     gap: "10px",
     width: "100%",
-    height: "430px",
+    height: "360px",
   },
   itemExit: {
     display: "flex",
@@ -992,11 +768,11 @@ const styles = {
   },
   leftColumn: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     alignItems: "flex-start",
-    gap: "30px",
+    // gap: "30px",
     // height: "408px",
-    background: "#FFFFFF",
+    background: "var(--background)",
     borderRadius: "10px",
     width: "50%",
   },
@@ -1489,5 +1265,198 @@ const styles = {
     width: "100%",
     height: "171px",
   },
+  leftColumnPhoto: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "150px",
+    height: "176px",
+  },
+  photoUser: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "0px",
+    gap: "10px",
+    width: "150px",
+    height: "176px",
+  },
+  changePhoto: {
+    width: "84px",
+    height: "16px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "300",
+    fontSize: "12px",
+    lineHeight: "16px",
+    letterSpacing: "0.03em",
+    textDecorationLine: "underline",
+    color: "#29A19C",
+  },
+  leftrightColumn: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "27px",
+    width: "100%",
+    height: "368px",
+    paddingLeft: "50px",
+  },
+  nickName: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "70%",
+    height: "73px",
+  },
+  text2: {
+    width: "97px",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "600",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.03em",
+    color: "var(--button-text-color)",
+  },
+  username: {
+    width: "100%",
+    height: "44px",
+    boxSizing: "border-box",
+    background: "var(--background-color)",
+    color: "var(--button-text-color)",
+
+    // position: "absolute",
+    left: "0px",
+    top: "29px",
+  },
+  mail: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    // gap: "10px",
+    width: "70%",
+    height: "102px",
+  },
+  text3: {
+    width: "84px",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "600",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.03em",
+    color: "var(--button-text-color)",
+  },
+  email: {
+    width: "100%",
+    height: "44px",
+    background: "var(--background-color)",
+    color: "var(--button-text-color)",
+    boxSizing: "border-box",
+    left: "0px",
+    top: "29px",
+  },
+  social: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "163px",
+    height: "61px",
+  },
+  text4: {
+    width: "163px",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontstyle: "normal",
+    fontHeight: "600",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.03em",
+    color: "var(--button-text-color)",
+  },
+  media: {
+    display: "flex",
+    flexdirection: "row",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "20px",
+    width: "84px",
+    height: "32px",
+  },
+  facebook: {
+    width: "32px",
+    height: "32px",
+  },
+  leftColumnButton: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    width: "40%",
+    height: "42px",
+    background: "#29A19C",
+    borderRadius: "8px",
+  },
+  basic1: {
+    display: "flex",
+    flexdirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "10px",
+    width: "100%",
+    height: "42px",
+  },
+  text5: {
+    width: "168px",
+    height: "22px",
+    fontfamily: "Nunito",
+    fontstyle: "normal",
+    fontheight: "600",
+    fontsize: "16px",
+    lineheight: "22px",
+    letterspacing: "0.01em",
+    color: "#FAFAFA",
+  },
+  headerButton: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    width: "100%",
+    height: "42px",
+    background: "#ECCA75",
+    borderRadius: "8px",
+  },
+  basic2: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "10px",
+    width: "100%",
+    height: "42px",
+  },
+  text6: {
+    width: "226px",
+    height: "22px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontHeight: "600",
+    fontSize: "16px",
+    lineHeight: "22px",
+    letterSpacing: "0.01em",
+    color: "#FAFAFA",
+  },
 };
-// filter: drop-shadow(rgba(29, 52, 54, 0.08) 0px 10px 25px);

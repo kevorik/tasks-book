@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainPage from "./main/mainPage";
 import Test from "./main/mainPage";
 import SignInPage from "./signIn/signInPage";
-import UserAccount from "./userAccount/userAccountPage";
+import UserAccount from "./userPage/userPage";
 export function RoutesList() {
   // const { children } = props;
 
