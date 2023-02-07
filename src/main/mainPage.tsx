@@ -1,55 +1,75 @@
+import React, { useState } from "react";
 import pic from "../image/Group 1.svg";
 import pic1 from "../image/moon.svg";
 import pic2 from "../image/header__avatar.svg";
 import pic5 from "../image/Логотип.svg";
 import pic6 from "../image/briefcase.svg";
 import pic7 from "../image/zap.svg";
-import pic8 from "../image/bar-chart-2.svg";
-import pic9 from "../image/zap.svg";
 import pic10 from "../image/Функции.svg";
 import pic11 from "../image/График.svg";
-
 import {
-  Card,
-  MenuProps,
-  Dropdown,
-  Space,
-  Modal,
-  Select,
-  DatePickerProps,
-  DatePicker,
-  Button,
-  Layout,
-} from "antd";
-import React, { useEffect, useState } from "react";
-import {
-  SettingOutlined,
-  UserOutlined,
-  StarOutlined,
-  ExportOutlined,
-  DownOutlined,
-  FieldTimeOutlined,
-  CalendarOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UploadOutlined,
   HomeOutlined,
   UsergroupAddOutlined,
   PlusSquareOutlined,
+  ExportOutlined,
+  DownOutlined,
+  UserOutlined,
+  SettingOutlined,
+  StarOutlined,
   EditOutlined,
+  FieldTimeOutlined,
+  CalendarOutlined,
 } from "@ant-design/icons";
-import { Link, useHref } from "react-router-dom";
-import type { CheckboxChangeEvent } from "antd/es/checkbox";
-import { ACTIVE_TASKS } from "../data/tasks";
-export function MainPage() {
-  const [open, setOpen] = useState(false);
+import {
+  Button,
+  ConfigProvider,
+  Card,
+  DatePicker,
+  DatePickerProps,
+  Dropdown,
+  Layout,
+  Menu,
+  MenuProps,
+  Modal,
+  Select,
+  Space,
+  theme,
+  Form,
+} from "antd";
+import { Link } from "react-router-dom";
+import { useTheme } from "../hooks/use-theme";
+
+const { Header, Sider, Content } = Layout;
+
+const MainPage: React.FC = () => {
+  const { theme, setTheme } = useTheme();
+
+  const handleLightThemeClick = () => {
+    setTheme("light");
+  };
+  const handleDarkThemeClick = () => {
+    setTheme("dark");
+  };
+
+  // const { defaultAlgorithm, darkAlgorithm } = theme; //////
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const handleClick = () => {
+    setIsDarkMode((previousValue) => !previousValue);
+  };
+
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const activeTasls = ACTIVE_TASKS;
-
-  console.log(activeTasls);
-
+  const [collapsed, setCollapsed] = useState(false);
+  // const {
+  //   token: { colorBgContainer },
+  // } = theme.useToken();/////////////////////
   const showModal = () => {
     setOpen(true);
   };
-
   const handleOk = () => {
     setOpen(false);
   };
@@ -57,24 +77,10 @@ export function MainPage() {
     console.log("Clicked cancel button");
     setOpen(false);
   };
-
-  const gridStyle: React.CSSProperties = {
-    boxSizing: "border-box",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "15px",
-    gap: "10px",
-    width: "526px",
-    height: "49px",
-    background: "#FFFFFF",
-    border: "1px solid rgba(40, 40, 70, 0.1)",
-    borderRadius: "10px",
-    cursor: "pointer",
-  };
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
   };
+  // const [darkMode, setDarkMode] = useState(false);
   const handleCard = (gridStyle: any) => {
     console.log("gridStyle", gridStyle);
 
@@ -82,8 +88,31 @@ export function MainPage() {
       return <EditOutlined />;
     }
   };
-
-  const [darkMode, setDarkMode] = useState(false);
+  const gridStyle: React.CSSProperties = {
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: "15px",
+    gap: "10px",
+    width: "100%",
+    height: "49px",
+    background: "var(--background)",
+    border: "1px solid rgba(40, 40, 70, 0.1)",
+    borderRadius: "10px",
+    cursor: "pointer",
+  };
+  const leftColumn: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "30px",
+    // height: "408px",
+    // background: "#FFFFFF",
+    borderRadius: "10px",
+    width: "50%",
+    background: "var(--background-color)",
+  };
   const items: MenuProps["items"] = [
     {
       label: (
@@ -131,10 +160,153 @@ export function MainPage() {
     },
   ];
   return (
-    <div className={darkMode ? "dark-mode" : "light-mode"}>
-        <Layout style={{height: '100vh'}}>
-        <div style={styles.main as React.CSSProperties}>
-          <div style={styles.header as React.CSSProperties}>
+    // <ConfigProvider
+    //   theme={{
+    //     token: {
+    //       // colorPrimary: "#F9F9F9",
+    //       colorBgLayout: "#222831",
+    //       colorBgContainer: "#2C3440",
+    //       colorText: "white",
+    //     },
+    //     // algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
+    //   }}
+    // >
+    // <div className={darkMode ? "dark-mode" : "light-mode"}>
+    <ConfigProvider
+      theme={{
+        token: { colorBgContainer: "#2C3440" },
+        // algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,//////////////////////////////
+      }}
+    >
+      <Layout style={{ height: "100vh" }}>
+        <Layout.Sider
+          style={{
+            background: "var(--background)", //colorBgContainer
+            filter: "drop-shadow(rgba(29, 52, 54, 0.08) 0px 10px 25px)",
+          }}
+          trigger={null}
+          width={"15%"}
+          collapsible
+          collapsed={collapsed}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: "60px",
+            }}
+          >
+            <div style={styles.topLayout as React.CSSProperties}>
+              <img style={{ width: "119px", height: "54px" }} src={pic5} />
+              {/* {React.createElement(
+                collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                {
+                  className: "trigger",
+                  onClick: () => setCollapsed(!collapsed),
+                }
+              )} */}
+            </div>
+            <div style={styles.categories as React.CSSProperties}>
+              <div style={styles.textCategories}>Категории</div>
+
+              <Menu
+                theme="light"
+                mode="inline"
+                style={{
+                  color: "var(--button-text-color)",
+                  background: "var(--background)",
+                }}
+                defaultSelectedKeys={["1"]}
+                items={[
+                  {
+                    key: "1",
+                    icon: <HomeOutlined />,
+                    label: "Дом",
+                  },
+                  {
+                    key: "2",
+                    icon: <UsergroupAddOutlined />,
+                    label: "Семья",
+                  },
+                  {
+                    key: "3",
+                    icon: (
+                      <img
+                        src={pic6}
+                        style={{ color: "var(--button-text-color)" }}
+                      />
+                    ),
+                    label: "Работа",
+                  },
+                  {
+                    key: "4",
+                    icon: (
+                      <img
+                        src={pic7}
+                        style={{ color: "var(--button-text-color)" }}
+                      />
+                    ),
+                    label: "Спорт",
+                  },
+                  {
+                    key: "5",
+                    icon: <PlusSquareOutlined />,
+                    label: "Добавить",
+                  },
+                ]}
+              />
+              <div style={styles.data as React.CSSProperties}>
+                <div style={styles.textData}>Данные</div>
+                <Menu
+                  theme="light"
+                  mode="inline"
+                  style={{
+                    color: "var(--button-text-color)",
+                    background: "var(--background)",
+                  }}
+                  defaultSelectedKeys={["1"]}
+                  items={[
+                    {
+                      key: "1",
+                      icon: <HomeOutlined />,
+                      label: "Статистика",
+                    },
+                    {
+                      key: "2",
+                      icon: <UsergroupAddOutlined />,
+                      label: "Сравнить",
+                    },
+                  ]}
+                />
+              </div>
+              <div style={styles.exit as React.CSSProperties}>
+                <div style={styles.itemExit as React.CSSProperties}>
+                  <ExportOutlined
+                    style={{ color: "var(--button-text-color)" }}
+                  />
+                  <Link style={styles.textExit} to={"/"}>
+                    Выйти
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Layout.Sider>
+        <Layout
+          style={{ paddingLeft: "50px", background: "var(--background-color)" }} // background: "rgb(255, 255, 255)"
+        >
+          <Header
+            style={{
+              padding: 0,
+              // style={{ backgroundColor: token.colorPrimary }}
+              background: "none",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <button
               onClick={showModal}
               style={styles.buttonHeader as React.CSSProperties}
@@ -215,9 +387,20 @@ export function MainPage() {
                 </div>
               </div>
             </Modal>
-            <button style={styles.dark} onClick={() => setDarkMode(!darkMode)}>
-              <img src={pic1} />
-            </button>
+            <Button
+              style={{ color: "white" }}
+              // style={styles.dark}
+              // style={{ backgroundColor: token.colorPrimary }}
+              // onClick={() => setDarkMode(!darkMode)}
+              onClick={handleLightThemeClick}
+            >
+              {/* {isDarkMode ? "Light" : "Dark"} */} light
+              {/* <img src={pic1} /> */}
+            </Button>
+            <Button style={{ color: "white" }} onClick={handleDarkThemeClick}>
+              {" "}
+              Dark
+            </Button>
             <div style={styles.user as React.CSSProperties}>
               <div style={styles.text1}>Хорошего дня, username</div>
               <img src={pic2} />
@@ -227,15 +410,32 @@ export function MainPage() {
                 </a>
               </Dropdown>
             </div>
-          </div>
-          <div style={styles.content as React.CSSProperties}>
-            <div style={styles.leftColumn as React.CSSProperties}>
-              <div style={styles.weeklyProgress as React.CSSProperties}>
+          </Header>
+          {/* <div style={{ display: "flex", flexDirection: "row" }}> */}
+          <Content
+            style={{
+              marginTop: "24px",
+              // padding: 24,
+              minHeight: 280,
+              width: "100%",
+              // background: colorBgContainer,
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+            }}
+          >
+            <div style={leftColumn}>
+              <Form style={styles.weeklyProgress as React.CSSProperties}>
                 <div style={styles.topWeeklyProgress as React.CSSProperties}>
                   <div style={styles.titleTopWeeklyProgress}>
                     Успехи за неделю
                   </div>
-                  <img src={pic10} />
+                  <img
+                    src={pic10}
+                    style={{ background: "var(--button-text-color)" }}
+                  />
                 </div>
                 <div style={styles.circles as React.CSSProperties}>
                   <div style={styles.circle as React.CSSProperties}>
@@ -260,36 +460,37 @@ export function MainPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Form>
               <div style={styles.tasks as React.CSSProperties}>
                 <div style={styles.activeTasks as React.CSSProperties}>
                   <div style={styles.titleTasks}>Активные задачи</div>
-                  <img src={pic10} />
+                  <img
+                    src={pic10}
+                    style={{ background: "var(--button-text-color)" }}
+                  />
                 </div>
                 <div style={styles.taskTasks as React.CSSProperties}>
                   <div style={styles.tableTasks as React.CSSProperties}>
-                    <Card>
-                      <Card.Grid onClick={handleCard} style={gridStyle}>
+                    <Card style={{ width: "100%" }}>
+                      <Card.Grid style={gridStyle}>
                         <div style={styles.textTasks}>
-                          {activeTasls.map((task) => (
-                            <div key={task.name}></div>
-                          ))}
+                          Приготовить вкусный ужин
                         </div>
                       </Card.Grid>
                     </Card>
-                    <Card>
+                    <Card style={{ width: "100%" }}>
                       <Card.Grid style={gridStyle}>
                         <div style={styles.textTasks}>
                           Устранить засор в раковине
                         </div>
                       </Card.Grid>
                     </Card>
-                    <Card>
+                    <Card style={{ width: "100%" }}>
                       <Card.Grid style={gridStyle}>
                         <div style={styles.textTasks}>Стирка белого белья </div>
                       </Card.Grid>
                     </Card>
-                    <Card>
+                    <Card style={{ width: "100%" }}>
                       <Card.Grid style={gridStyle}>
                         <div style={styles.textTasks}>
                           Разморозить холодильник
@@ -302,12 +503,12 @@ export function MainPage() {
                   <div style={styles.titleCompletedTasks}>
                     Завершенные задачи
                   </div>
-                  <Card>
+                  <Card style={{ width: "100%" }}>
                     <Card.Grid style={gridStyle}>
                       <div style={styles.textCompletedTasks}>Полить цветы</div>
                     </Card.Grid>
                   </Card>
-                  <Card>
+                  <Card style={{ width: "100%" }}>
                     <Card.Grid style={gridStyle}>
                       <div style={styles.textCompletedTasks}>
                         Вызвать сантехника
@@ -320,25 +521,29 @@ export function MainPage() {
             <div style={styles.rightColumn as React.CSSProperties}>
               <div style={styles.time as React.CSSProperties}>
                 <div style={styles.title as React.CSSProperties}>
-                  <div style={styles.textTasks}>
+                  {/* <div style={styles.textTasks}>
                     {activeTasls.map((task) => (
                       <div key={task.name}></div>
                     ))}
-                  </div>
+                  </div> */}
                   <div style={styles.text7}> Такс такс такс</div>
                 </div>
                 <div style={styles.timeAndDate as React.CSSProperties}>
                   <div style={styles.time1 as React.CSSProperties}>
                     <div style={styles.text8}>На часах у нас</div>
                     <div style={styles.tableTime as React.CSSProperties}>
-                      <FieldTimeOutlined />
+                      <FieldTimeOutlined
+                        style={{ color: "var(--button-text-color)" }}
+                      />
                       <div style={styles.textTime}>12:30:43</div>
                     </div>
                   </div>
                   <div style={styles.date as React.CSSProperties}>
                     <div style={styles.text9}>А сегодня у нас</div>
                     <div style={styles.tableDate as React.CSSProperties}>
-                      <CalendarOutlined />
+                      <CalendarOutlined
+                        style={{ color: "var(--button-text-color)" }}
+                      />
                       <div style={styles.textDate}>5 апреля 2021</div>
                     </div>
                   </div>
@@ -374,100 +579,112 @@ export function MainPage() {
                   <div style={styles.textGraphic}>График успеваемости</div>
                 </div>
                 <div style={styles.graphGraphic as React.CSSProperties}>
-                  <img src={pic11} />
+                  <img
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      color: "var(--button-text-color)",
+                    }}
+                    src={pic11}
+                  />
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </Content>
+          {/* </div> */}
         </Layout>
-      <div style={styles.layout as React.CSSProperties}>
-        <div style={styles.designCenter as React.CSSProperties}>
-          <div style={styles.topLayout as React.CSSProperties}>
-            <img style={{ width: "119px", height: "54px" }} src={pic5} />
-          </div>
-          <div style={styles.categories as React.CSSProperties}>
-            <div style={styles.textCategories}>Категории</div>
-            <div style={styles.list as React.CSSProperties}>
-              <div style={styles.item1 as React.CSSProperties}>
-                <HomeOutlined />
-                <div style={styles.textItem}>Дом</div>
-                <div style={styles.active}></div>
-              </div>
-              <div style={styles.item1 as React.CSSProperties}>
-                <UsergroupAddOutlined />
-                <div style={styles.textItem}>Семья</div>
-              </div>
-              <div style={styles.item1 as React.CSSProperties}>
-                <img src={pic6} />
-                <div style={styles.textItem}>Работа</div>
-              </div>
-              <div style={styles.item1 as React.CSSProperties}>
-                <img src={pic7} />
-                <div style={styles.textItem}>Спорт</div>
-              </div>
-              <div style={styles.item2 as React.CSSProperties}>
-                <PlusSquareOutlined />
-                <div style={styles.textItem1}>Добавить</div>
-              </div>
-            </div>
-          </div>
-          <div style={styles.data as React.CSSProperties}>
-            <div style={styles.textData}>Данные</div>
-            <div style={styles.contentData as React.CSSProperties}>
-              <div style={styles.dataItem as React.CSSProperties}>
-                <img src={pic8} />
-                <div style={styles.textDataItem}>Статистика</div>
-              </div>
-              <div style={styles.dataItem as React.CSSProperties}>
-                <img src={pic9} />
-                <div style={styles.textDataItem}>Сравнить</div>
-              </div>
-            </div>
-          </div>
-          <div style={styles.exit as React.CSSProperties}>
-            <div style={styles.itemExit as React.CSSProperties}>
-              <ExportOutlined />
-              <Link style={styles.textExit} to={"/"}>
-                Выйти
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      </Layout>
+    </ConfigProvider>
+    // </div>
   );
-}
+};
+
 export default MainPage;
+
 const styles = {
-  useracc: {
-    height: "100vh",
+  topLayout: {
     display: "flex",
-    justifyContent: "center",
-    // alignItems: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: "60px",
+    width: "119px",
+    height: "54px",
+    paddingTop: "20px",
+    paddingLeft: "20px",
   },
-  main: {
-    display: "flex",
+  categories: {
+    // display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
     padding: "0px",
-    gap: "60px",
-    // position: "absolute",
-    width: "1069px",
-    height: "660px",
-    left: "301px",
-    top: "20px",
+    gap: "20px",
+    width: "100%",
+    background: "var(--background)",
   },
-  header: {
+  textCategories: {
+    width: "125px",
+    height: "33px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "24px",
+    lineHeight: "33px",
+    letterSpacing: "0.03em",
+    color: "#29A19C",
+    paddingLeft: "20px",
+    paddingBottom: "40px",
+  },
+  data: {
+    // display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "20px",
+    width: "100%",
+  },
+  textData: {
+    width: "113px",
+    height: "33px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "24px",
+    lineHeight: "33px",
+    letterSpacing: "0.03em",
+    color: "#29A19C",
+    paddingLeft: "20px",
+    paddingBottom: "40px",
+  },
+  exit: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "end",
+    alignItems: "flex-start",
+    paddingLeft: "30px",
+    gap: "10px",
+    width: "100%",
+    height: "430px",
+  },
+  itemExit: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     padding: "0px",
-    // gap: "581px",
-    width: "1068px",
-    height: "44px",
+    gap: "10px",
   },
+  textExit: {
+    textDecoration: "none",
+    width: "85px",
+    height: "22px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "16px",
+    lineHeight: "22px",
+    letterSpacing: "0.025em",
+    color: "var(--button-text-color)",
+  },
+
   button: {
     display: "flex",
     flexDirection: "row",
@@ -485,7 +702,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     // padding: "10px 25px",
-    width: "215px",
+    width: "100%",
     height: "42px",
   },
   text: {
@@ -512,753 +729,19 @@ const styles = {
     alignItems: "center",
     padding: "0px",
     gap: "20px",
-    width: "294px",
+    // width: "294px",
+    width: "20%",
     height: "44px",
   },
   text1: {
-    width: "186px",
+    width: "60%",
     height: "22px",
     fontFamily: "Nunito",
     fontStyle: "normal",
     fontWeight: "600",
     fontSize: "16px",
     lineHeight: "22px",
-  },
-  content: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    padding: "0px",
-    width: "1069px",
-    height: "556px",
-  },
-  leftColumn: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "30px",
-    height: "408px",
-    background: "#FFFFFF",
-    borderRadius: "10px",
-  },
-  leftColumnPhoto: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "150px",
-    height: "176px",
-  },
-  photoUser: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "0px",
-    gap: "10px",
-    width: "150px",
-    height: "176px",
-  },
-  changePhoto: {
-    width: "84px",
-    height: "16px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "300",
-    fontSize: "12px",
-    lineHeight: "16px",
-    letterSpacing: "0.03em",
-    textDecorationLine: "underline",
-    color: "#29A19C",
-  },
-  leftrightColumn: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "30px",
-    width: "300px",
-    height: "368px",
-  },
-  nickName: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "300px",
-    height: "73px",
-  },
-  text2: {
-    width: "97px",
-    height: "19px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "14px",
-    lineHeight: "19px",
-    letterSpacing: "0.03em",
-    color: "#000000",
-  },
-  username: {
-    width: "300px",
-    height: "44px",
-    boxSizing: "border-box",
-    // position: "absolute",
-    left: "0px",
-    top: "29px",
-  },
-  mail: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "300px",
-    height: "102px",
-  },
-  text3: {
-    width: "84px",
-    height: "19px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "14px",
-    lineHeight: "19px",
-    letterSpacing: "0.03em",
-    color: "#000000",
-  },
-  email: {
-    width: "300px",
-    height: "44px",
-    boxSizing: "border-box",
-    left: "0px",
-    top: "29px",
-  },
-  social: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "163px",
-    height: "61px",
-  },
-  text4: {
-    width: "163px",
-    height: "19px",
-    fontFamily: "Nunito",
-    fontstyle: "normal",
-    fontWeight: "600",
-    fontSize: "14px",
-    lineHeight: "19px",
-    letterSpacing: "0.03em",
-    color: "#000000",
-  },
-  media: {
-    display: "flex",
-    flexdirection: "row",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "20px",
-    width: "84px",
-    height: "32px",
-  },
-  facebook: {
-    width: "32px",
-    height: "32px",
-  },
-  leftColumnButton: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    width: "218px",
-    height: "42px",
-    background: "#29A19C",
-    borderRadius: "8px",
-  },
-  basic1: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "10px",
-    width: "218px",
-    height: "42px",
-  },
-  text5: {
-    width: "168px",
-    height: "22px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "16px",
-    lineHeight: "22px",
-    letterSpacing: "0.01em",
-    color: "#FAFAFA",
-  },
-  rightColumn: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    paddingLeft: "30px",
-    gap: "30px",
-    width: "473px",
-    height: "556px",
-  },
-  headerButton: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    width: "473px",
-    height: "42px",
-    background: "#ECCA75",
-    borderRadius: "8px",
-  },
-  basic2: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "10px",
-    width: "473px",
-    height: "42px",
-  },
-  text6: {
-    width: "226px",
-    height: "22px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "16px",
-    lineHeight: "22px",
-    letterSpacing: "0.01em",
-    color: "#FAFAFA",
-  },
-  time: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "20px",
-    gap: "20px",
-    width: "473px",
-    height: "143px",
-    background: "#FFFFFF",
-    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
-    borderRadius: "10px",
-  },
-  title: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "433px",
-    height: "25px",
-  },
-  text7: {
-    width: "433px",
-    height: "25px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "18px",
-    lineHeight: "25px",
-    letterSpacing: "0.02em",
-    color: "#29A19C",
-  },
-  timeAndDate: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "71px",
-    width: "433px",
-    height: "58px",
-  },
-  time1: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "5px",
-    width: "140px",
-    height: "58px",
-  },
-  text8: {
-    width: "112px",
-    height: "19px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "14px",
-    lineHeight: "19px",
-    letterSpacing: "0.02em",
-    color: "#282846",
-  },
-  tableTime: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "0px",
-    gap: "10px",
-    width: "140px",
-    height: "34px",
-  },
-  textTime: {
-    width: "106px",
-    height: "34px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "25px",
-    lineHeight: "34px",
-    letterSpacing: "0.02em",
-  },
-  date: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "5px",
-    width: "212px",
-    height: "58px",
-  },
-  text9: {
-    width: "112px",
-    height: "19px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "14px",
-    lineHeight: "19px",
-    letterSpacing: "0.02em",
-    color: "#282846",
-  },
-  tableDate: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "0px",
-    gap: "10px",
-    width: "212px",
-    height: "34px",
-  },
-  textDate: {
-    width: "178px",
-    height: "34px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "25px",
-    lineHeight: "34px",
-    letterSpacing: "0.02em",
-    // color: "#282846",
-  },
-  watching: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    padding: "20px",
-    gap: "20px",
-    width: "472px",
-    height: "133px",
-    background: "#FFFFFF",
-    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
-    borderRadius: "10px",
-  },
-  titleWatching: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "432px",
-    height: "25px",
-  },
-  text10: {
-    width: "432px",
-    height: "25px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "18px",
-    lineHeight: "25px",
-    letterSpacing: "0.02em",
-    color: "#29A19C",
-  },
-  statistic: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "432px",
-    height: "48px",
-  },
-  textStatistic: {
-    width: "323px",
-    height: "19px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "14px",
-    lineHeight: "19px",
-    letterSpacing: "0.02em",
-    color: "#282846",
-  },
-  textStatistic1: {
-    width: "317px",
-    height: "19px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "14px",
-    lineHeight: "19px",
-    letterSpacing: "0.02em",
-    color: "#282846",
-  },
-  fact: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "20px",
-    gap: "20px",
-    width: "472px",
-    height: "148px",
-    background: "#FFFFFF",
-    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08",
-    borderRadius: "10px",
-  },
-  titleFact: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "81px",
-    height: "25px",
-  },
-  textFact: {
-    width: "81px",
-    height: "25px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "18px",
-    lineHeight: "25px",
-    letterSpacing: "0.02em",
-    color: "#29A19C",
-  },
-  contentTextFact: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "432px",
-    height: "63px",
-  },
-  textFact1: {
-    width: "432px",
-    height: "63px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "14px",
-    lineHeight: "150%",
-    letterSpacing: "0.02em",
-    color: "#282846",
-  },
-  layout: {
-    position: "absolute",
-    width: "231px",
-    height: "900px",
-    left: "0px",
-    top: "0px",
-    filter: "drop-shadow(0px 10px 25px rgba(29, 52, 54, 0.08))",
-  },
-  designCenter: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "20px",
-    gap: "60px",
-    position: "absolute",
-    width: "232px",
-    height: "900px",
-    left: "calc(50% - 232px/2 + 0.5px",
-    top: "calc(50% - 900px/2)",
-    background: "#FAFAFA",
-  },
-  topLayout: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "0px",
-    gap: "60px",
-    width: "119px",
-    height: "54px",
-  },
-  categories: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "20px",
-    width: "212px",
-    height: "283px",
-  },
-  textCategories: {
-    width: "125px",
-    height: "33px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "24px",
-    lineHeight: "33px",
-    letterSpacing: "0.03em",
-    color: "#29A19C",
-  },
-  list: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "30px",
-    width: "212px",
-    height: "230px",
-  },
-  item1: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "0px",
-    gap: "10px",
-    width: "212px",
-    height: "22px",
-    backdropFilter: "blur(2px)",
-  },
-  textItem: {
-    width: "144px",
-    height: "22px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "16px",
-    lineHeight: "22px",
-    letterSpacing: "0.025em",
-    color: "#282846",
-  },
-  active: {
-    width: "30px",
-    height: "18px",
-    background: "#29A19C",
-    borderRadius: "10px 0px 0px 10px",
-  },
-  item2: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "0px",
-    gap: "10px",
-    width: "212px",
-    height: "22px",
-    backdropFilter: "blur(2px)",
-    color: "#29A19C",
-  },
-  textItem1: {
-    width: "144px",
-    height: "22px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "16px",
-    lineHeight: "22px",
-    letterSpacing: "0.025em",
-    color: "#29A19C",
-  },
-  data: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "20px",
-    width: "113px",
-    height: "127px",
-  },
-  textData: {
-    width: "113px",
-    height: "33px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "24px",
-    lineHeight: "33px",
-    letterSpacing: "0.03em",
-    color: "#29A19C",
-  },
-  contentData: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "30px",
-    width: "113px",
-    height: "74px",
-  },
-  dataItem: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "0px",
-    gap: "10px",
-    width: "112px",
-    height: "22px",
-  },
-  textDataItem: {
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "16px",
-    lineHeight: "22px",
-    color: "#282846",
-  },
-  exit: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-end",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "119px",
-    height: "216px",
-  },
-  itemExit: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: "0px",
-    gap: "10px",
-    width: "119px",
-    height: "22px",
-  },
-  textExit: {
-    textDecoration: "none",
-    width: "85px",
-    height: "22px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "16px",
-    lineHeight: "22px",
-    letterSpacing: "0.025em",
-    color: "#282846",
-  },
-  weeklyProgress: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "20px",
-    gap: "20px",
-    width: "566px",
-    height: "211px",
-    background: "#FFFFFF",
-    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
-    borderRadius: "10px",
-  },
-  topWeeklyProgress: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "0px",
-    gap: "341px",
-    width: "526px",
-    height: "25px",
-  },
-  titleTopWeeklyProgress: {
-    width: "157px",
-    height: "25px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "18px",
-    lineHeight: "25px",
-    letterSpacing: "0.02em",
-    color: "#29A19C",
-  },
-  circles: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "57px",
-    width: "526px",
-    height: "126px",
-  },
-  circle: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "0px",
-    gap: "10px",
-    width: "100px",
-    height: "126px",
-  },
-  titleCircle: {
-    width: "50px",
-    height: "16px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "12px",
-    lineHeight: "16px",
-    letterSpacing: "0.02em",
-    color: "#282846",
-  },
-  taskCircle: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "0px",
-    width: "100px",
-    height: "100px",
-    background: "#FFFFFF",
-    border: "1px solid #29A19C",
-    borderRadius: "200px",
-  },
-  numberTaskCircle: {
-    // width: "67px",
-    height: "49px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "36px",
-    lineHeight: "49px",
-    letterSpacing: "0.02em",
-    color: "#29A19C",
-  },
-  bottomTaskCircle: {
-    // width: "33px",
-    height: "16px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "12px",
-    lineHeight: "16px",
-    letterSpacing: "0.02em",
-    color: "#282846",
+    color: "var(--button-text-color)",
   },
   buttonHeader: {
     display: "flex",
@@ -1277,7 +760,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    width: "182px",
+    width: "100%",
     height: "42px",
   },
   textHeader: {
@@ -1291,140 +774,85 @@ const styles = {
     letterSpacing: "0.01e",
     color: "#FAFAFA",
   },
-  graphic: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "20px",
-    gap: "20px",
-    width: "472px",
-    height: "256px",
-    background: "#FFFFFF",
-    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
-    borderRadius: "10px",
-  },
-  titleGraphic: {
+  buttonModal: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "flex-start",
+    justifyContent: "center",
+    alignItems: "flex-end",
     padding: "0px",
     gap: "10px",
-    width: "189px",
-    height: "25px",
+    width: "660px",
+    height: "65px",
   },
-  textGraphic: {
-    width: "189px",
-    height: "25px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "600",
-    fontSize: "18px",
-    lineHeight: "25px",
-    letterSpacing: "0.02em",
-    color: "#29A19C",
-  },
-  graphGraphic: {
+  cancelButtonModal: {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
     padding: "0px",
-    gap: "10px",
-    width: "432px",
-    height: "171px",
+    width: "292px",
+    height: "42px",
   },
- tasks : {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "20px",
-    gap: "20px",
-    width: "566px",
-    height: "474px",
-    background: "#FFFFFF",
-    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
-    borderRadius: "10px",
-  },
-  activeTasks: {
+  cancelButton: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
-    padding: "0px",
-    gap: "347px",
-    width: "526px",
-    height: "25px",
+    padding: "10px 25px",
+    gap: "10px",
+    width: "124px",
+    height: "42px",
+    background: "#F05454",
+    borderRadius: "8px",
+    cursor: "pointer",
   },
-  titleTasks: {
-    width: "151px",
-    height: "25px",
+  textCancelButton: {
+    width: "74px",
+    height: "22px",
     fontFamily: "Nunito",
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: "18px",
-    lineHeight: "25px",
-    letterSpacing: "0.02em",
-    color: "#29A19C",
+    fontSize: "16px",
+    lineHeight: "22px",
+    letterSpacing: "0.01em",
+    color: "#FAFAFA",
   },
-  taskTasks: {
+  saveTemplate: {
     display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    width: "526px",
-    height: "226px",
-  },
-  tableTasks: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "10px 25px",
     gap: "10px",
-    width: "526px",
-    height: "49px",
-    // cursor: "pointer",
+    width: "224px",
+    height: "42px",
+    border: "1px solid #29A19C",
+    borderRadius: "8px",
+    cursor: "pointer",
+    background: "var(--button-text-color)",
   },
-  textTasks: {
-    width: "183px",
-    height: "19px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "14px",
-    lineHeight: "19px",
-    letterSpacing: "0.02em",
-    color: "#282846",
-  },
-  completedTasks: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "10px",
-    width: "526px",
-    height: "143px",
-  },
-  titleCompletedTasks: {
-    width: "186px",
-    height: "25px",
+  textSaveTemplate: {
+    width: "174px",
+    height: "22px",
     fontFamily: "Nunito",
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: "18px",
-    lineHeight: "25px",
-    letterSpacing: "0.02em",
+    fontSize: "22x",
+    lineHeight: "22px",
+    letterSpacing: "0.01em",
     color: "#29A19C",
   },
-  textCompletedTasks: {
-    width: "135px",
-    height: "19px",
-    fontFamily: "Nunito",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "14px",
-    lineHeight: "19px",
-    letterSpacing: "0.02em",
-    textDecorationLine: "line-through",
-    color: "#282846",
+  addButton: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "10px 25px",
+    gap: "10px",
+    width: "124px",
+    height: "42px",
+    background: "#29A19C",
+    borderRadius: "8px",
+    cursor: "pointer",
   },
   modal: {
     display: "flex",
@@ -1519,6 +947,7 @@ const styles = {
     gap: "30px",
     width: "660px",
     height: "64px",
+    background: "var(--button-text-color)",
   },
   categoriesModal: {
     display: "flex",
@@ -1528,6 +957,7 @@ const styles = {
     gap: "10px",
     width: "200px",
     height: "64px",
+    background: "white",
   },
   titleCategoriesModal: {
     width: "127px",
@@ -1549,84 +979,506 @@ const styles = {
     width: "200px",
     height: "35px",
     borderRadius: "8px",
+    background: "white",
   },
-  buttonModal: {
+  leftColumn: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "30px",
+    // height: "408px",
+    background: "#FFFFFF",
+    borderRadius: "10px",
+    width: "50%",
+  },
+  weeklyProgress: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "20px",
+    gap: "20px",
+    width: "100%",
+    // height: "211px",
+    background: "var(--background)",
+    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
+    borderRadius: "10px",
+    filter: "drop-shadow(rgba(29, 52, 54, 0.08) 0px 10px 25px)",
+  },
+  topWeeklyProgress: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0px",
+    // gap: "341px",
+    width: "100%",
+    // height: "25px",
+  },
+  titleTopWeeklyProgress: {
+    // width: "157px",
+    // height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  circles: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "flex-start",
+    padding: "0px",
+    // gap: "57px",
+    width: "100%",
+    height: "126px",
+  },
+  circle: {
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
-    alignItems: "flex-end",
+    alignItems: "center",
     padding: "0px",
     gap: "10px",
-    width: "660px",
-    height: "65px",
+    width: "100px",
+    height: "126px",
   },
-  cancelButtonModal: {
+  titleCircle: {
+    // width: "50px",
+    height: "16px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "12px",
+    lineHeight: "16px",
+    letterSpacing: "0.02em",
+    color: "var(--button-text-color)",
+  },
+  taskCircle: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "0px",
+    width: "100%",
+    height: "100px",
+    background: "var(--background)",
+    border: "1px solid #29A19C",
+    borderRadius: "200px",
+  },
+  numberTaskCircle: {
+    // width: "67px",
+    height: "49px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "36px",
+    lineHeight: "49px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  bottomTaskCircle: {
+    // width: "33px",
+    height: "16px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "12px",
+    lineHeight: "16px",
+    letterSpacing: "0.02em",
+    color: "var(--button-text-color)",
+  },
+  tasks: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "20px",
+    gap: "20px",
+    width: "100%",
+    height: "474px",
+    background: "var(--background)",
+    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
+    borderRadius: "10px",
+    filter: "drop-shadow(rgba(29, 52, 54, 0.08) 0px 10px 25px)",
+  },
+  activeTasks: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0px",
+    // gap: "347px",
+    width: "100%",
+    height: "25px",
+  },
+  titleTasks: {
+    // width: "151px",
+    height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  taskTasks: {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
     padding: "0px",
-    width: "292px",
-    height: "42px",
+    width: "100%",
+    height: "226px",
   },
-  cancelButton: {
+  tableTasks: {
+    // display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "100%",
+    height: "49px",
+    display: "flex",
+    // cursor: "pointer",
+  },
+  textTasks: {
+    // width: "183px",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02em",
+    color: "var(--button-text-color)",
+  },
+  completedTasks: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "100%",
+    height: "143px",
+  },
+  titleCompletedTasks: {
+    // width: "186px",
+    height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  textCompletedTasks: {
+    // width: "135px",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02em",
+    textDecorationLine: "line-through",
+    color: "var(--button-text-color)",
+  },
+  rightColumn: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    paddingLeft: "30px",
+    paddingRight: "20px",
+    gap: "30px",
+    width: "50%",
+    height: "556px",
+    filter: "drop-shadow(rgba(29, 52, 54, 0.08) 0px 10px 25px)",
+    background: "var(--background-color)",
+  },
+  time: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "20px",
+    gap: "20px",
+    width: "100%",
+    height: "143px",
+    background: "var(--background)",
+    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
+    borderRadius: "10px",
+  },
+  title: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "10px 25px",
+    alignItems: "flex-start",
+    padding: "0px",
     gap: "10px",
-    width: "124px",
-    height: "42px",
-    background: "#F05454",
-    borderRadius: "8px",
-    cursor: "pointer",
+    width: "100%",
+    height: "25px",
   },
-  textCancelButton: {
-    width: "74px",
-    height: "22px",
+  text7: {
+    display: "flex",
+    // justifyContent: "center",
+    width: "100%",
+    height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  timeAndDate: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "71px",
+    width: "100%",
+    height: "58px",
+  },
+  time1: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    // gap: "5px",
+    width: "100%",
+    height: "58px",
+  },
+  text8: {
+    width: "100%",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02em",
+    color: "var(--button-text-color)",
+  },
+  tableTime: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: "0px",
+    gap: "10px",
+    width: "100%",
+    height: "34px",
+  },
+  textTime: {
+    width: "100%",
+    height: "34px",
     fontFamily: "Nunito",
     fontStyle: "normal",
     fontWeight: "600",
     fontSize: "16px",
-    lineHeight: "22px",
-    letterSpacing: "0.01em",
-    color: "#FAFAFA",
+    lineHeight: "34px",
+    letterSpacing: "0.02em",
+    color: "var(--button-text-color)",
   },
-  saveTemplate: {
+  date: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    // gap: "5px",
+    width: "100%",
+    height: "58px",
+  },
+  text9: {
+    width: "100%",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02em",
+    color: "var(--button-text-color)",
+  },
+  tableDate: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    padding: "10px 25px",
+    padding: "0px",
     gap: "10px",
-    width: "224px",
-    height: "42px",
-    border: "1px solid #29A19C",
-    borderRadius: "8px",
-    cursor: "pointer",
+    width: "100%",
+    height: "34px",
   },
-  textSaveTemplate: {
-    width: "174px",
-    height: "22px",
+  textDate: {
+    width: "100%",
+    height: "34px",
     fontFamily: "Nunito",
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: "22x",
-    lineHeight: "22px",
-    letterSpacing: "0.01em",
-    color: "#29A19C",
+    fontSize: "16px",
+    lineHeight: "34px",
+    letterSpacing: "0.02em",
+    color: "var(--button-text-color)",
   },
-  addButton: {
+  watching: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    padding: "20px",
+    gap: "20px",
+    width: "100%",
+    height: "133px",
+    background: "var(--background)",
+    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
+    borderRadius: "10px",
+  },
+  titleWatching: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "10px 25px",
+    alignItems: "flex-start",
+    padding: "0px",
     gap: "10px",
-    width: "124px",
-    height: "42px",
-    background: "#29A19C",
-    borderRadius: "8px",
-    cursor: "pointer",
+    width: "100%",
+    height: "25px",
+  },
+  text10: {
+    width: "100%",
+    height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  statistic: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "100%",
+    height: "48px",
+  },
+  textStatistic: {
+    width: "100%",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02em",
+    color: "var(--button-text-color)",
+  },
+  textStatistic1: {
+    width: "100%",
+    height: "19px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "19px",
+    letterSpacing: "0.02em",
+    color: "var(--button-text-color)",
+  },
+  fact: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "20px",
+    gap: "20px",
+    width: "100%",
+    height: "148px",
+    background: "var(--background)",
+    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08",
+    borderRadius: "10px",
+  },
+  titleFact: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "100%",
+    height: "25px",
+  },
+  textFact: {
+    width: "100%",
+    height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  contentTextFact: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "100%",
+    height: "63px",
+  },
+  textFact1: {
+    width: "100%",
+    height: "63px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "150%",
+    letterSpacing: "0.02em",
+    color: "var(--button-text-color)",
+  },
+  graphic: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "20px",
+    gap: "20px",
+    width: "100%",
+    height: "256px",
+    background: "var(--background)",
+    boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
+    borderRadius: "10px",
+  },
+  titleGraphic: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "189px",
+    height: "25px",
+  },
+  textGraphic: {
+    width: "189px",
+    height: "25px",
+    fontFamily: "Nunito",
+    fontStyle: "normal",
+    fontWeight: "600",
+    fontSize: "18px",
+    lineHeight: "25px",
+    letterSpacing: "0.02em",
+    color: "#29A19C",
+  },
+  graphGraphic: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: "0px",
+    gap: "10px",
+    width: "100%",
+    height: "171px",
   },
 };
+// filter: drop-shadow(rgba(29, 52, 54, 0.08) 0px 10px 25px);

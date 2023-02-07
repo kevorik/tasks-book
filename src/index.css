@@ -25,3 +25,21 @@ code {
   height: 100%;
   transition: background-color 0.25s ease-in-out;
 } */
+
+html[data-theme="dark"] {
+  --button-text-color: #ffffff;
+  --button-background-color: #4e005c;
+  --button-border-color: #ba8fc2;
+  --background: #2c3440;
+  --background-color: #222831;
+  --icon-color: #ba8fc2;
+}
+
+html[data-theme="light"] {
+  --button-text-color: #252525;
+  --button-background-color: #f9d4ff;
+  --button-border-color: #4e005c;
+  --background: #ffffff;
+  --background-color: #e5e5e5;
+  --icon-color: #4e005c;
+}
