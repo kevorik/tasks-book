@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
-import pic10 from "../../image/Функции.svg";
 import { ActiveTasks } from "../atoms/ActiveTasks";
 import { CompletedTasks } from "../atoms/CompletedTasks";
 import { WeeklyProgress } from "../atoms/WeeklyProgress";
+import { DashOutlined } from "@ant-design/icons";
 
 export type LeftColumn = {
   children: ReactNode;
@@ -17,7 +17,9 @@ export const LeftColumnMainPage = (props: LeftColumn): JSX.Element => {
       <div style={styles.tasks as React.CSSProperties}>
         <div style={styles.activeTasks as React.CSSProperties}>
           <div style={styles.titleTasks}>Активные задачи</div>
-          <img src={pic10} style={{ background: "var(--button-text-color)" }} />
+          <DashOutlined
+            style={{ fontSize: "30px", color: "var(--button-text-color)" }}
+          />
         </div>
         <ActiveTasks children={children} />
         <CompletedTasks children={children} />

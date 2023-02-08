@@ -32,6 +32,6 @@ const styles = {
     width: "50%",
     height: "556px",
     filter: "drop-shadow(rgba(29, 52, 54, 0.08) 0px 10px 25px)",
-    background: "var(--background-color)",
+    // background: "var(--background-color)",
   },
 };

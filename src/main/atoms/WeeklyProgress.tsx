@@ -1,6 +1,6 @@
 import { Form } from "antd";
 import React, { ReactNode } from "react";
-import pic10 from "../../image/Функции.svg";
+import { DashOutlined } from "@ant-design/icons";
 
 export type Weekly = {
   children: ReactNode;
@@ -13,7 +13,9 @@ export const WeeklyProgress = (props: Weekly): JSX.Element => {
     <Form style={styles.weeklyProgress as React.CSSProperties}>
       <div style={styles.topWeeklyProgress as React.CSSProperties}>
         <div style={styles.titleTopWeeklyProgress}>Успехи за неделю</div>
-        <img src={pic10} style={{ background: "var(--button-text-color)" }} />
+        <DashOutlined
+          style={{ fontSize: "30px", color: "var(--button-text-color)" }}
+        />
       </div>
       <div style={styles.circles as React.CSSProperties}>
         <div style={styles.circle as React.CSSProperties}>

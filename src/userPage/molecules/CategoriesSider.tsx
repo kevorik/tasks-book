@@ -1,13 +1,13 @@
 import { Menu } from "antd";
 import React, { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import pic6 from "../../image/briefcase.svg";
-import pic7 from "../../image/zap.svg";
 import {
   ExportOutlined,
   HomeOutlined,
   UsergroupAddOutlined,
   PlusSquareOutlined,
+  LaptopOutlined,
+  TrophyOutlined,
 } from "@ant-design/icons";
 export type Categories = {
   children: ReactNode;
@@ -41,16 +41,12 @@ export const CategoriesSider = (props: Categories): JSX.Element => {
           },
           {
             key: "3",
-            icon: (
-              <img src={pic6} style={{ color: "var(--button-text-color)" }} />
-            ),
+            icon: <LaptopOutlined />,
             label: "Работа",
           },
           {
             key: "4",
-            icon: (
-              <img src={pic7} style={{ color: "var(--button-text-color)" }} />
-            ),
+            icon: <TrophyOutlined />,
             label: "Спорт",
           },
           {

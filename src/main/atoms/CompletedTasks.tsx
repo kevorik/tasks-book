@@ -1,22 +1,43 @@
 import { Card } from "antd";
-import React, { ReactNode } from "react";
+import Checkbox, { CheckboxChangeEvent } from "antd/es/checkbox";
+import React, { ReactNode, useState } from "react";
 export type Completed = {
   children: ReactNode;
 };
 
 export const CompletedTasks = (props: Completed): JSX.Element => {
   const { children } = props;
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
 
+  const mouseHover = () => setShow((prev) => !prev);
+  const mouseHover1 = () => setShow1((prev) => !prev);
+
+  const onChange = (e: CheckboxChangeEvent) => {
+    console.log(`checked = ${e.target.checked}`);
+  };
   return (
     <div style={styles.completedTasks as React.CSSProperties}>
       <div style={styles.titleCompletedTasks}>Завершенные задачи</div>
-      <Card style={{ width: "100%" }}>
+      <Card
+        hoverable
+        onMouseEnter={mouseHover}
+        onMouseLeave={mouseHover}
+        style={{ width: "100%" }}
+      >
         <Card.Grid style={styles.gridStyle as React.CSSProperties}>
+          {show ? <Checkbox onChange={onChange} /> : null}
           <div style={styles.textCompletedTasks}>Полить цветы</div>
         </Card.Grid>
       </Card>
-      <Card style={{ width: "100%" }}>
+      <Card
+        hoverable
+        onMouseEnter={mouseHover1}
+        onMouseLeave={mouseHover1}
+        style={{ width: "100%" }}
+      >
         <Card.Grid style={styles.gridStyle as React.CSSProperties}>
+          {show1 ? <Checkbox onChange={onChange} /> : null}
           <div style={styles.textCompletedTasks}>Вызвать сантехника</div>
         </Card.Grid>
       </Card>

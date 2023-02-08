@@ -1,6 +1,6 @@
 import { Button } from "antd";
 import { Header } from "antd/es/layout/layout";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { useTheme } from "../../hooks/use-theme";
 import { HeaderButtonUser } from "../../userPage/atoms/headerButton";
 import { UserHeader } from "../../userPage/atoms/UserHeader";
@@ -13,13 +13,18 @@ export type HeaderButtonUser = {
 
 export const HeaderUser = (props: HeaderButtonUser): JSX.Element => {
   const { children } = props;
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  console.log("theme", theme);
   const handleLightThemeClick = () => {
     setTheme("light");
   };
   const handleDarkThemeClick = () => {
     setTheme("dark");
   };
+  // const showModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
   return (
     <Header
@@ -32,9 +37,15 @@ export const HeaderUser = (props: HeaderButtonUser): JSX.Element => {
         alignItems: "center",
       }}
     >
-      <ButtonHeaderMainPage children={children} />
+      <ButtonHeaderMainPage
+        children={children}
+        onClick={() => {
+          throw new Error("Function not implemented.");
+        }}
+      />
       <Button style={{ color: "white" }} onClick={handleLightThemeClick}>
         {/* {isDarkMode ? "Light" : "Dark"} */} light
+        {/* {theme === "light" ? "gg" : theme === "dark" ? "ss" : ""} */}
       </Button>
       <Button style={{ color: "white" }} onClick={handleDarkThemeClick}>
         Dark

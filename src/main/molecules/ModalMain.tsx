@@ -1,13 +1,15 @@
 import { Button, DatePicker, DatePickerProps, Modal, Select } from "antd";
 import React, { ReactNode, useState } from "react";
+import { ButtonHeaderMainPage } from "../atoms/ButtonHeaderMainPage";
 export type Modal = {
   children: ReactNode;
+  open: boolean;
 };
-
 export const ModalMain = (props: Modal): JSX.Element => {
   const { children } = props;
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCancel = () => {
     console.log("Clicked cancel button");
@@ -19,74 +21,78 @@ export const ModalMain = (props: Modal): JSX.Element => {
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     console.log(date, dateString);
   };
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
   return (
-    <Modal
-      footer={[
-        <div style={styles.buttonModal as React.CSSProperties}>
-          <div style={styles.cancelButtonModal as React.CSSProperties}>
-            <Button
-              onClick={handleCancel}
-              style={styles.cancelButton as React.CSSProperties}
-            >
-              <div style={styles.textCancelButton}>Отменить</div>
+    <>
+      <ButtonHeaderMainPage children={children} onClick={showModal} />
+      <Modal
+        footer={[
+          <div style={styles.buttonModal as React.CSSProperties}>
+            <div style={styles.cancelButtonModal as React.CSSProperties}>
+              <Button
+                onClick={handleCancel}
+                style={styles.cancelButton as React.CSSProperties}
+              >
+                <div style={styles.textCancelButton}>Отменить</div>
+              </Button>
+            </div>
+            <Button style={styles.saveTemplate as React.CSSProperties}>
+              <div style={styles.textSaveTemplate}>Сохранить как шаблон</div>
             </Button>
-          </div>
-          <Button style={styles.saveTemplate as React.CSSProperties}>
-            <div style={styles.textSaveTemplate}>Сохранить как шаблон</div>
-          </Button>
-          <Button
-            onClick={handleOk}
-            style={styles.addButton as React.CSSProperties}
-          >
-            <div style={styles.textCancelButton}>Добавить</div>
-          </Button>
-        </div>,
-      ]}
-      onCancel={handleCancel}
-      style={styles.modal as React.CSSProperties}
-      open={open}
-      onOk={handleOk}
-      confirmLoading={confirmLoading}
-    >
-      <div style={styles.titleModal as React.CSSProperties}>
-        <div style={styles.textModal}>Добавить новую задачу</div>
-      </div>
-      <div style={styles.contentModal as React.CSSProperties}>
-        <div style={styles.itemContent as React.CSSProperties}>
-          <div style={styles.itemTextModal}>Что нужно сделать?</div>
-          <input style={styles.taskModal as React.CSSProperties}>
-            {/* <div style={styles.inputModal}></div> */}
-          </input>
+            <Button
+              onClick={handleOk}
+              style={styles.addButton as React.CSSProperties}
+            >
+              <div style={styles.textCancelButton}>Добавить</div>
+            </Button>
+          </div>,
+        ]}
+        onCancel={handleCancel}
+        style={styles.modal as React.CSSProperties}
+        open={isModalOpen}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+      >
+        <div style={styles.titleModal as React.CSSProperties}>
+          <div style={styles.textModal}>Добавить новую задачу</div>
         </div>
-        <div style={styles.item2Content as React.CSSProperties}>
-          <div style={styles.categoriesModal as React.CSSProperties}>
-            <div style={styles.titleCategoriesModal}>Категория</div>
-            <Select
-              defaultValue="Выбрать"
-              style={styles.selectModal as React.CSSProperties}
-              allowClear
-              options={[{ value: "lucy", label: "Lucy" }]}
-            />
+        <div style={styles.contentModal as React.CSSProperties}>
+          <div style={styles.itemContent as React.CSSProperties}>
+            <div style={styles.itemTextModal}>Что нужно сделать?</div>
+            <input style={styles.taskModal as React.CSSProperties}></input>
           </div>
-          <div style={styles.categoriesModal as React.CSSProperties}>
-            <div style={styles.titleCategoriesModal}>Когда?</div>
-            <DatePicker
-              style={styles.selectModal as React.CSSProperties}
-              onChange={onChange}
-            />
-          </div>
-          <div style={styles.categoriesModal as React.CSSProperties}>
-            <div style={styles.titleCategoriesModal}>Приоритет задачи</div>
-            <Select
-              defaultValue="Выбрать"
-              style={styles.selectModal as React.CSSProperties}
-              allowClear
-              options={[{ value: "lucy", label: "Lucy" }]}
-            />
+          <div style={styles.item2Content as React.CSSProperties}>
+            <div style={styles.categoriesModal as React.CSSProperties}>
+              <div style={styles.titleCategoriesModal}>Категория</div>
+              <Select
+                defaultValue="Выбрать"
+                style={styles.selectModal as React.CSSProperties}
+                allowClear
+                options={[{ value: "lucy", label: "Lucy" }]}
+              />
+            </div>
+            <div style={styles.categoriesModal as React.CSSProperties}>
+              <div style={styles.titleCategoriesModal}>Когда?</div>
+              <DatePicker
+                style={styles.selectModal as React.CSSProperties}
+                onChange={onChange}
+              />
+            </div>
+            <div style={styles.categoriesModal as React.CSSProperties}>
+              <div style={styles.titleCategoriesModal}>Приоритет задачи</div>
+              <Select
+                defaultValue="Выбрать"
+                style={styles.selectModal as React.CSSProperties}
+                allowClear
+                options={[{ value: "lucy", label: "Lucy" }]}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </Modal>
+      </Modal>
+    </>
   );
 };
 const styles = {
@@ -180,7 +186,6 @@ const styles = {
     position: "relative",
     width: "700px",
     height: "350px",
-    // background: "#FFFFFF",
     boxShadow: "0px 10px 25px rgba(29, 52, 54, 0.08)",
     borderRadius: "10px",
   },
@@ -237,7 +242,6 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     alignItems: "flex-start",
-    // padding: "8px 15px",
     gap: "10px",
     width: "660px",
     height: "35px",

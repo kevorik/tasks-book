@@ -16,14 +16,14 @@ export const TimeRightColumn = (props: Time): JSX.Element => {
         <div style={styles.time1 as React.CSSProperties}>
           <div style={styles.text8}>На часах у нас</div>
           <div style={styles.tableTime as React.CSSProperties}>
-            <FieldTimeOutlined />
+            <FieldTimeOutlined style={{ color: "var(--button-text-color)" }} />
             <div style={styles.textTime}>12:30:43</div>
           </div>
         </div>
         <div style={styles.date as React.CSSProperties}>
           <div style={styles.text9}>А сегодня у нас</div>
           <div style={styles.tableDate as React.CSSProperties}>
-            <CalendarOutlined />
+            <CalendarOutlined style={{ color: "var(--button-text-color)" }} />
             <div style={styles.textDate}>5 апреля 2021</div>
           </div>
         </div>
