@@ -14,8 +14,6 @@ export type Categories = {
 };
 
 export const CategoriesSider = (props: Categories): JSX.Element => {
-  const { children } = props;
-
   return (
     <div style={styles.categories as React.CSSProperties}>
       <div style={styles.textCategories}>Категории</div>
@@ -26,6 +24,7 @@ export const CategoriesSider = (props: Categories): JSX.Element => {
         style={{
           color: "var(--button-text-color)",
           background: "var(--background)",
+          borderInlineEnd: "none",
         }}
         defaultSelectedKeys={["1"]}
         items={[
@@ -64,6 +63,7 @@ export const CategoriesSider = (props: Categories): JSX.Element => {
           style={{
             color: "var(--button-text-color)",
             background: "var(--background)",
+            borderInlineEnd: "none",
           }}
           defaultSelectedKeys={["1"]}
           items={[
@@ -115,12 +115,8 @@ const styles = {
     paddingBottom: "40px",
   },
   data: {
-    // display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: "0px",
-    gap: "20px",
     width: "100%",
+    paddingTop: "60px",
   },
   textData: {
     width: "113px",
@@ -140,10 +136,10 @@ const styles = {
     flexDirection: "column",
     justifyContent: "end",
     alignItems: "flex-start",
-    paddingLeft: "30px",
+    paddingLeft: "20px",
     gap: "10px",
     width: "100%",
-    height: "360px",
+    height: "310px",
   },
   itemExit: {
     display: "flex",

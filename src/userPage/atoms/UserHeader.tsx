@@ -14,7 +14,6 @@ export type User = {
 };
 
 export const UserHeader = (props: User): JSX.Element => {
-  const { children } = props;
   const navigate = useNavigate();
 
   const items: MenuProps["items"] = [
@@ -68,7 +67,10 @@ export const UserHeader = (props: User): JSX.Element => {
     <div style={styles.user as React.CSSProperties}>
       <div style={styles.text1}>Хорошего дня, username</div>
       <img src={pic2} />
-      <Dropdown menu={{ items }}>
+      <Dropdown
+        overlayStyle={{ backgroundColor: "var(--background-color)" }}
+        menu={{ items }}
+      >
         <a onClick={(e) => e.preventDefault()}>
           <Space>{<DownOutlined />}</Space>
         </a>
@@ -83,8 +85,7 @@ const styles = {
     flexDirection: "row",
     alignItems: "center",
     padding: "0px",
-    gap: "20px",
-    // width: "294px",
+    gap: "10px",
     width: "20%",
     height: "44px",
   },
@@ -97,5 +98,8 @@ const styles = {
     fontSize: "16px",
     lineHeight: "22px",
     color: "var(--button-text-color)",
+  },
+  dropdown: {
+    backgroundColor: "var(--background-color)",
   },
 };

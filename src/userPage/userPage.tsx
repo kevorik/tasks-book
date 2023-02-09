@@ -17,7 +17,7 @@ const UserAccount: React.FC = (props: UserAccountPage) => {
         token: { colorBgContainer: "#2C3440" },
       }}
     >
-      <Layout style={{ height: "100vh" }}>
+      <Layout style={{ minHeight: "100vh" }}>
         <SiderUser children={children} />
         <Layout
           style={{ paddingLeft: "50px", background: "var(--background-color)" }} // background: "rgb(255, 255, 255)"

@@ -7,8 +7,6 @@ export type Weekly = {
 };
 
 export const WeeklyProgress = (props: Weekly): JSX.Element => {
-  const { children } = props;
-
   return (
     <Form style={styles.weeklyProgress as React.CSSProperties}>
       <div style={styles.topWeeklyProgress as React.CSSProperties}>
@@ -81,7 +79,7 @@ const styles = {
   circles: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "flex-start",
     padding: "0px",
     // gap: "57px",

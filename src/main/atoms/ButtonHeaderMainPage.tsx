@@ -6,9 +6,8 @@ export type ButtonHeader = {
   onClick: (event: MouseEvent) => void;
 };
 export const ButtonHeaderMainPage = (props: ButtonHeader): JSX.Element => {
-  const { children } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [confirmLoading] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -28,7 +27,7 @@ export const ButtonHeaderMainPage = (props: ButtonHeader): JSX.Element => {
         style={styles.buttonHeader as React.CSSProperties}
       >
         <div style={styles.basicHeader as React.CSSProperties}>
-          <img src={pic} />
+          <img alt="" src={pic} />
           <div style={styles.textHeader}>Новая задача</div>
         </div>
       </button>

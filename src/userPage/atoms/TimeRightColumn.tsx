@@ -3,10 +3,7 @@ import { FieldTimeOutlined, CalendarOutlined } from "@ant-design/icons";
 export type Time = {
   children: ReactNode;
 };
-
 export const TimeRightColumn = (props: Time): JSX.Element => {
-  const { children } = props;
-
   return (
     <div style={styles.time as React.CSSProperties}>
       <div style={styles.title as React.CSSProperties}>
@@ -16,15 +13,29 @@ export const TimeRightColumn = (props: Time): JSX.Element => {
         <div style={styles.time1 as React.CSSProperties}>
           <div style={styles.text8}>На часах у нас</div>
           <div style={styles.tableTime as React.CSSProperties}>
-            <FieldTimeOutlined style={{ color: "var(--button-text-color)" }} />
+            <FieldTimeOutlined
+              style={{
+                color: "var(--button-text-color)",
+                fontSize:
+                  "calc(16px + (9 + 9 * 0.7)*((100vw - 1024px) / 1839))",
+              }}
+            />
             <div style={styles.textTime}>12:30:43</div>
           </div>
         </div>
         <div style={styles.date as React.CSSProperties}>
           <div style={styles.text9}>А сегодня у нас</div>
           <div style={styles.tableDate as React.CSSProperties}>
-            <CalendarOutlined style={{ color: "var(--button-text-color)" }} />
-            <div style={styles.textDate}>5 апреля 2021</div>
+            <CalendarOutlined
+              style={{
+                color: "var(--button-text-color)",
+                fontSize:
+                  "calc(16px + (9 + 9 * 0.7)*((100vw - 1024px) / 1440))",
+              }}
+            />
+            <div className="textDate" style={styles.textDate}>
+              5 апреля 2021
+            </div>
           </div>
         </div>
       </div>
@@ -111,7 +122,7 @@ const styles = {
     fontFamily: "Nunito",
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: "16px",
+    fontSize: "calc(16px + (9 + 9 * 0.7)*((100vw - 1024px) / 1839))",
     lineHeight: "34px",
     letterSpacing: "0.02em",
     color: "var(--button-text-color)",
@@ -151,7 +162,8 @@ const styles = {
     fontFamily: "Nunito",
     fontStyle: "normal",
     fontWeight: "600",
-    fontSize: "16px",
+    fontSize: "calc(16px + (9 + 9 * 0.7)*((100vw - 1024px) / 1839))",
+    // fontSize: "calc(16+ 9*(100vw / 1839))",
     lineHeight: "34px",
     letterSpacing: "0.02em",
     color: "var(--button-text-color)",

@@ -1,31 +1,21 @@
-import { Button } from "antd";
 import { Header } from "antd/es/layout/layout";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { useTheme } from "../../hooks/use-theme";
-import { HeaderButtonUser } from "../../userPage/atoms/headerButton";
 import { UserHeader } from "../../userPage/atoms/UserHeader";
 import { ButtonHeaderMainPage } from "../atoms/ButtonHeaderMainPage";
-import { ModalMain } from "../molecules/ModalMain";
+import pic11 from "../../image/sun.svg";
+import pic12 from "../../image/moon.svg";
 
-export type HeaderButtonUser = {
+export type HeaderButtonUsers = {
   children: ReactNode;
 };
 
-export const HeaderUser = (props: HeaderButtonUser): JSX.Element => {
+export const HeaderUser = (props: HeaderButtonUsers): JSX.Element => {
   const { children } = props;
-  // const [isModalOpen, setIsModalOpen] = useState(false);
   const { theme, setTheme } = useTheme();
-  console.log("theme", theme);
-  const handleLightThemeClick = () => {
-    setTheme("light");
+  const handleChangeDarkLight = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
   };
-  const handleDarkThemeClick = () => {
-    setTheme("dark");
-  };
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
-
   return (
     <Header
       style={{
@@ -43,13 +33,28 @@ export const HeaderUser = (props: HeaderButtonUser): JSX.Element => {
           throw new Error("Function not implemented.");
         }}
       />
-      <Button style={{ color: "white" }} onClick={handleLightThemeClick}>
-        {/* {isDarkMode ? "Light" : "Dark"} */} light
-        {/* {theme === "light" ? "gg" : theme === "dark" ? "ss" : ""} */}
-      </Button>
-      <Button style={{ color: "white" }} onClick={handleDarkThemeClick}>
-        Dark
-      </Button>
+      {theme === "light" ? (
+        <img
+          alt=""
+          onClick={handleChangeDarkLight}
+          style={{
+            color: "var(--button-text-color)",
+            cursor: "pointer",
+          }}
+          src={pic12}
+        />
+      ) : (
+        <img
+          alt=""
+          onClick={handleChangeDarkLight}
+          style={{
+            color: "var(--button-text-color)",
+            cursor: "pointer",
+          }}
+          src={pic11}
+        />
+      )}
+
       <UserHeader children={children} />
     </Header>
   );
