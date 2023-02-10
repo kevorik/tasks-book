@@ -1,6 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import Facebook from "../uploadImage/Facebook";
-import Twitter from "../uploadImage/Twitter";
 import pic from "../image/facebook 1.svg";
 import pict from "../image/twitter 1.svg";
 import pictu from "../image/Логотип.svg";
@@ -61,7 +59,7 @@ export default SignInPage;
 
 const styles = {
   signPage: {
-    height: "100vh",
+    minHeight: "100vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
